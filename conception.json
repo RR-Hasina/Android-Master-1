@@ -1,0 +1,148 @@
+/**************** GUIDES ****************/
+
+// Lieux (Destination touristiques)
+// Ex : Antananarivo, massif de Makay, Antsirabe,Tulear,Itasy,etc
+{
+    "id" : "string",
+    "nom": "string",
+    "resume": "string",
+    "descriptions": {
+      "titre": "string",
+      "info": "string",
+      "sous_dexriptions" :[{
+        "titre" : "string",
+        "info" : "string"
+      }]
+    },
+    "suggestions": [
+        "string","string","string"
+    ],
+    "photos" : [
+        "img","img","img"
+    ],
+    "video" : ["vi","vi","vi"],
+    "carte" : {  // Ra anisy carte
+        "latitude": "number",
+        "longitude": "number"
+    },
+    "tags": ["tag1","tag2"]
+
+},
+
+//*************************** le natambatra *******************//
+// possible afaka atambatra le efatra reo de asina type fotsiny le guide fa le destination atokana
+// le natambatra
+// Restaurants,Hebergements,Activites,Attractions
+// Guides
+{
+  "id" : "string",
+  "nom": "string",
+  "type":"string", // type Attraction, activite,hebergement, resto
+  "resume": "string",
+  "descriptions": {
+    "titre": "string",
+    "info": "string",
+    "sous_dexriptions" :[{
+      "titre" : "string",
+      "info" : "string"
+    }]
+  },
+  "photos" : [
+      "img","img","img"
+  ],
+  "video" : ["vi","vi","vi"],
+  "Destination": "idDestination", // ra misy
+  "carte" : {  // Ra anisy carte
+  "latitude": "number",
+  "longitude": "number",
+  "tags": ["tag1","tag2"],
+},
+}
+
+/**************** GUIDES ****************/
+
+/**************** Circuits de voyages ****************/
+
+// ex :A la découverte de Madagascar de l'Ouest à l'Est
+
+{
+    "id" : "string",
+    "nom": "string",
+    "description": {
+      "titre": "string",
+      "info": "string",
+    },
+    "photos" : [
+        "img","img","img"
+    ],
+    "video" : ["vi","vi","vi"],
+    "tags": ["tag1","tag2"],
+    "itineraires":{
+        "titre":"string",
+        "nbrjour":"number",
+       "trajets": [
+        {
+        "lieu_depart":"string",
+        "lieu_arrivee":"string", //facultatif
+        "duree":"day heure minute",  //facultatif
+        "distance" : "number",  //facultatif
+        "transport": "string", // avion,voiture,etc
+        "description":"string"
+        }
+        ],
+        "Hebergement":{ // ramisy
+            "titre": "string",
+            "idHebergement": "idHebergement" // ramisy
+        },
+        "PetitDej":{ // ramisy
+            "titre": "string",
+            "idHebergement": "idHebergement",// ramisy
+            "idResto": "idResto" // ramisy
+        },
+        "Dej":{ // ramisy
+            "titre": "string",
+            "idHebergement": "idHebergement",// ramisy
+            "idResto": "idResto" // ramisy
+        },
+        "Diner":{ // ramisy 
+            "titre": "string",
+            "idHebergement": "idHebergement", // ramisy
+            "idResto": "idResto" // ramisy
+        },
+
+    },
+    "disponibilite":[{ 
+        "id":"string",
+        "date_debut":"date",
+        "date_fin":"date",
+        "disponible":"number", // place dispo
+        "prix": "number", // par personne
+        "statut": "boolean"
+    }],
+    "guides":["id","id","id"],
+
+    "reservation":[{
+      "idClient":"String",
+      "NbPersonne":"Number"
+    }]
+},
+
+// clients
+{
+    "id":"string",
+    "nom":"string",
+    "prenom" : "string",
+    "email":"string",
+    "mdp": "string",
+    "telephone": "string"
+}
+
+//paiement
+{
+  "id":"String",
+  "IdCircuit":"String",
+  "IdClient":"String",
+  "NbPersonne":"Number",
+  "DatePaiement":"d/h/m",
+  "PrixTotal":"number"
+}
