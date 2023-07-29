@@ -1,4 +1,4 @@
-package com.tourisme.madatour.ui.dashboard;
+package com.tourisme.madatour.view.fragment.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

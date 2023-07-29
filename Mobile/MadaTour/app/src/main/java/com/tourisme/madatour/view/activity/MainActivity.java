@@ -1,4 +1,4 @@
-package com.tourisme.madatour;
+package com.tourisme.madatour.view.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -25,14 +25,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
+import com.tourisme.madatour.R;
 import com.tourisme.madatour.databinding.ActivityMainBinding;
-import com.tourisme.madatour.ui.dashboard.DashboardFragment;
-import com.tourisme.madatour.ui.home.HomeFragment;
-import com.tourisme.madatour.ui.notifications.NotificationsFragment;
+import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
+import com.tourisme.madatour.view.fragment.home.HomeFragment;
+import com.tourisme.madatour.view.fragment.notifications.NotificationsFragment;
+
 
 public class MainActivity extends AppCompatActivity {
 

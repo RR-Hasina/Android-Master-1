@@ -1,4 +1,4 @@
-package com.tourisme.madatour.ui.notifications;
+package com.tourisme.madatour.view.fragment.notifications;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
