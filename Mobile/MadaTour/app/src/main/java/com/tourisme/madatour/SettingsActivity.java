@@ -21,7 +21,6 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.getMenu().clear();
         navigationBack(toolbar,SettingsActivity.this);
         getSupportParentActivityIntent();
         if (savedInstanceState == null) {
