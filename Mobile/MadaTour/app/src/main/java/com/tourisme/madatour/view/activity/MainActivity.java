@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,9 +38,7 @@ import com.tourisme.madatour.view.fragment.notifications.NotificationsFragment;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private NavController navController;
     private MenuItem dashboardMenuItem;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         dashboardMenuItem = navView.getMenu().findItem(R.id.navigation_dashboard);
-//         Passing each menu ID as a set of Ids because each
-//         menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                 R.id.navigation_home,R.id.navigation_dashboard, R.id.navigation_notifications)
-//                .build();
-//        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//        NavigationUI.setupWithNavController(binding.navView, navController);
-        toolbar.setTitle("Home");
         replaceFragment(new HomeFragment());
-
+        toolbar.setTitle("Home");
         binding.navView.setOnItemSelectedListener(item -> {
             MenuItem itemToHide = toolbar.getMenu().findItem(R.id.search);
             switch (item.getItemId()) {
@@ -101,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private  void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);

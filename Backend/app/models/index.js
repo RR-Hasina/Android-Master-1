@@ -7,7 +7,7 @@ db.mongoose = mongoose;
 
 db.client = require("./client.model");
 
-db.destination = require("./destination.model");
+db.destinations = require("./destination.model");
 
 db.ROLES = ["client"];
 

@@ -1,19 +1,27 @@
 package com.tourisme.madatour.view.fragment.dashboard;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+import com.tourisme.madatour.model.Destination;
+import com.tourisme.madatour.repository.DestinationRespository;
 
-    private final MutableLiveData<String> mText;
+import java.util.List;
 
-    public DashboardViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+public class DashboardViewModel extends AndroidViewModel {
+
+    private DestinationRespository destinationRepository;
+
+    public DashboardViewModel(@NonNull Application application) {
+        super(application);
+        destinationRepository = new DestinationRespository(application);
     }
-
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Destination>> getDestinationList() {
+        return destinationRepository.getDestinationList();
     }
 }
