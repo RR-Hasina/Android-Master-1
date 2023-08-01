@@ -1,17 +1,24 @@
 const mongoose = require("mongoose");
 
-const Destination = mongoose.model(
-    "Destination",
+const Guide = mongoose.model(
+    "Guide",
     new mongoose.Schema({
         nom: String,
         descriptions: String,
         photos : [], 
         video : [],
+        type : String,
         carte : {  // Si on a besoin d' un carte
             latitude: Number,
             longitude: Number
         },
-        tags: []
+        tags: [],
+        destinations: [
+            {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'Destination',
+            },
+          ],
     })
 );
-module.exports = Destination;
+module.exports = Guide;

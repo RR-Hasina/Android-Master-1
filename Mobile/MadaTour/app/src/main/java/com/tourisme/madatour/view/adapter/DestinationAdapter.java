@@ -4,7 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,12 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.model.Destination;
+import com.tourisme.madatour.model.Guide;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.RecyclerViewHolder> {
+public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.RecyclerViewHolder> implements Filterable {
 
     private List<Destination> destinationList;
+    private List<Destination> filteredDestinationList;
     private Context mcontext;
     private OnItemClickListener onItemClickListener; // Listener for click events
 
@@ -36,7 +40,49 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
 
     public DestinationAdapter(List<Destination> destinationList, Context mcontext) {
         this.destinationList = destinationList;
+        this.filteredDestinationList = new ArrayList<>(destinationList);
         this.mcontext = mcontext;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String searchString = charSequence.toString();
+
+                if (searchString.isEmpty()) {
+
+                    filteredDestinationList = destinationList;
+
+                } else {
+
+                    ArrayList<Destination> tempFilteredList = new ArrayList<>();
+
+                    for (Destination destination : destinationList) {
+
+                        // search for user title
+                        if (destination.getNom().toLowerCase().contains(searchString.toLowerCase())) {
+
+                            tempFilteredList.add(destination);
+                        }
+                    }
+
+                    filteredDestinationList = tempFilteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredDestinationList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredDestinationList = (ArrayList<Destination>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     @NonNull
@@ -50,15 +96,15 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     @Override
     public void onBindViewHolder(@NonNull DestinationAdapter.RecyclerViewHolder holder, int position) {
         // Set the data to textview and imageview.
-        Destination recyclerData = destinationList.get(position);
+        Destination recyclerData = filteredDestinationList.get(position);
         holder.destinationTV.setText(recyclerData.getNom());
         Picasso.get().load(recyclerData.getPhotos().get(0)).into(holder.destinationIV);
     }
 
     @Override
     public int getItemCount() {
-        if (destinationList != null && destinationList.size() > 0) {
-            return destinationList.size();
+        if (filteredDestinationList != null && filteredDestinationList.size() > 0) {
+            return filteredDestinationList.size();
         } else {
             return 0;
         }

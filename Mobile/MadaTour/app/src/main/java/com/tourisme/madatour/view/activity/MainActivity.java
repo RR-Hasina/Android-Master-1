@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,6 +31,8 @@ import androidx.navigation.NavController;
 
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.databinding.ActivityMainBinding;
+import com.tourisme.madatour.view.fragment.activite.ActiviteFragment;
+import com.tourisme.madatour.view.fragment.attraction.AttractionFragment;
 import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
 import com.tourisme.madatour.view.fragment.home.HomeFragment;
 import com.tourisme.madatour.view.fragment.notifications.NotificationsFragment;
@@ -40,28 +43,37 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MenuItem dashboardMenuItem;
+
+    private String title;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         dashboardMenuItem = navView.getMenu().findItem(R.id.navigation_dashboard);
-        replaceFragment(new HomeFragment());
-        toolbar.setTitle("Home");
+        if (savedInstanceState == null) {
+            replaceFragment(new HomeFragment());
+            title = "Home";
+            toolbar.setTitle(title);
+        }
+
         binding.navView.setOnItemSelectedListener(item -> {
             MenuItem itemToHide = toolbar.getMenu().findItem(R.id.search);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     replaceFragment(new HomeFragment());
-                    toolbar.setTitle("Home");
+                    title = "Home";
+                    toolbar.setTitle(title);
                     itemToHide.setVisible(true); // Changez à true pour le montrer
                     break;
                 case R.id.navigation_notifications:
                     replaceFragment(new NotificationsFragment());
-                    toolbar.setTitle("Notifications");
+                    title = "Notifications";
+                    toolbar.setTitle(title);
                     // Cacher l'élément de menu en le rendant invisible (false) ou le montrer (true)
                     itemToHide.setVisible(false); // Changez à true pour le montrer
                     break;
@@ -79,6 +91,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("Title_Bottom_Nav", title);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            toolbar.setTitle(savedInstanceState.getString("Title_Bottom_Nav"));
+        }
     }
 
     @Override
@@ -119,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dashboardMenuItem.setChecked(true);
                 dialog.dismiss();
-                toolbar.setTitle("Destinations");
+                title = "Destinations";
+                toolbar.setTitle(title);
                 replaceFragment(new DashboardFragment());
             }
         });
@@ -127,20 +154,22 @@ public class MainActivity extends AppCompatActivity {
         shortsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dashboardMenuItem.setChecked(true);
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Create a short is Clicked",Toast.LENGTH_SHORT).show();
-
+                title = "Attractions";
+                toolbar.setTitle(title);
+                replaceFragment(new AttractionFragment());
             }
         });
 
         liveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dashboardMenuItem.setChecked(true);
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Go live is Clicked",Toast.LENGTH_SHORT).show();
-
+                title = "Activites";
+                toolbar.setTitle(title);
+                replaceFragment(new ActiviteFragment());
             }
         });
 
