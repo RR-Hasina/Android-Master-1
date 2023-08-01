@@ -46,4 +46,25 @@ public class DestinationRespository {
         });
         return mDestinationList;
     }
+
+    public MutableLiveData<List<Destination>> getDestinationListBysearch(String keyWord) {
+        RestApiServiceDestination apiService = RetrofitInstance.getApiService();
+        Call<DestinationResponse> call = apiService.getDestinationListBysearch(keyWord);
+        call.enqueue(new Callback<DestinationResponse>() {
+            @Override
+            public void onResponse(Call<DestinationResponse> call, Response<DestinationResponse> response) {
+
+                DestinationResponse destinationWrapper = response.body();
+                if (destinationWrapper != null && destinationWrapper.getDestinations() != null) {
+                    destinations = (ArrayList<Destination>) destinationWrapper.getDestinations();
+                    mDestinationList.setValue(destinations);
+                }
+            }
+            @Override
+            public void onFailure(Call<DestinationResponse> call, Throwable t) {
+                Log.d("ListSize"," - > Error    "+ t.getMessage());
+            }
+        });
+        return mDestinationList;
+    }
 }

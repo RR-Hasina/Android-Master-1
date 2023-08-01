@@ -4,51 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.dashboard.DashboardFragment">
+    tools:context=".view.fragment.attraction.AttractionFragment">
 
     <TextView
-        android:id="@+id/text_dashboard_title"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_attraction_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/Titre_Destination"
+        android:layout_marginEnd="16dp"
+        android:text="Les meilleures attractions touristiques de Madagascar"
         android:textStyle="bold|italic"
         android:gravity="center"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <TextView
-        android:id="@+id/text_dashboard_subtitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_attraction_subtitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="@string/Sous_Titre_destination"
+        android:layout_marginEnd="16dp"
+        android:text="Guide des meilleures attractions touristiques à découvrir lors de votre voyage à Madagascar"
         android:gravity="center"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_dashboard_title" />
+        app:layout_constraintTop_toBottomOf="@id/text_attraction_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <ProgressBar
-        android:id="@+id/pBar"
+        android:id="@+id/pBarAt"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_below="@+id/idDesinationRV"
+        android:layout_below="@+id/idAttractionRV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_dashboard_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/text_attraction_subtitle"
         android:visibility="visible"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/idDesinationRV"
+        android:id="@+id/idAttractionRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pBar" />
+        app:layout_constraintTop_toBottomOf="@id/pBarAt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
