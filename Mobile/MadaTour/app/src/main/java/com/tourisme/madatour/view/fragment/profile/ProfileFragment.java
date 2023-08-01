@@ -1,6 +1,6 @@
 package com.tourisme.madatour.view.fragment.profile;
 
-import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,19 +14,16 @@ import android.widget.Toast;
 
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.Call;
-import retrofit2.http.POST;
+
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.model.Client;
 import com.tourisme.madatour.network.RestApiServiceClient;
 import com.tourisme.madatour.network.RetrofitInstance;
-import com.tourisme.madatour.repository.ClientRespository;
 import com.tourisme.madatour.view.activity.MainActivity;
 import com.tourisme.madatour.response.ClientResponse;
 
@@ -42,11 +39,12 @@ public class ProfileFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     private ProfileViewModel profileViewModel;
-     Button btnConnexion, btnInscription;
+    SharedPreferences sharedPreferences;
+
+     Button btnConnexion, btnInscription, btnDeconnexion;
      EditText emailConnexion, mdpConnexion;
      EditText nomInscription, prenomInscription, emailInscription, mdpInscription, telephoneInscription;
-     SharedPreferences sharedPreferences;
-     SharedPreferences.Editor editor;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -55,9 +53,9 @@ public class ProfileFragment extends Fragment {
 
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
+
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,7 +71,25 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=  inflater.inflate(R.layout.fragment_profile, container, false);
+        View view=null;
+        sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+        System.out.println("##############"+sharedPreferences.getString("username",null));
+        if(sharedPreferences.getString("username",null)!=null){
+            view=inflater.inflate(R.layout.fragment_reservation,container,false);
+            this.btnDeconnexion=view.findViewById(R.id.btnDeconnexion);
+            this.btnDeconnexion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.remove("username");
+                    editor.commit();
+                    replaceFragment(new ProfileFragment());
+                }
+            });
+
+        }else{
+        view= inflater.inflate(R.layout.fragment_profile, container, false);
         this.emailConnexion=view.findViewById(R.id.emailConnexion);
         this.mdpConnexion=view.findViewById(R.id.mdpConnexion);
         this.btnConnexion=view.findViewById(R.id.btnConnexion);
@@ -81,18 +97,24 @@ public class ProfileFragment extends Fragment {
         this.btnConnexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String email=emailConnexion.getText().toString();
                 String mdp=mdpConnexion.getText().toString();
                 Client client = new Client(email, mdp);
                 /*********** API *******************/
                 RestApiServiceClient apiServiceClient = RetrofitInstance.getApiServiceClient();
                 Call<ClientResponse> call = apiServiceClient.clientLogin(client);
+                sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
                 call.enqueue(new Callback<ClientResponse>() {
                     @Override
                     public void onResponse(Call<ClientResponse> call, Response<ClientResponse> response) {
+
                         ClientResponse clientWrapper = response.body();
-                        ArrayList<Client> listeClient= (ArrayList<Client>) clientWrapper.getClient();
-                        if (listeClient.size()==1){
+                        Client listeClient= (Client) clientWrapper.getClient();
+                        if (listeClient!=null){
+                            editor.putString("username",listeClient.getNom());
+                            editor.commit();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("destination", "kakaBoudin"); // Pass any data you want to the new activity
                             startActivity(intent);
@@ -129,7 +151,11 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onResponse(Call<ClientResponse> call, Response<ClientResponse> response) {
                         ClientResponse clientWrapper = response.body();
-                        List<Client> listeClient= (List<Client>) clientWrapper.getClient();
+                        Client listeClient= (Client) clientWrapper.getClient();
+
+
+                        sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                        Toast.makeText(getContext(),sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
                     }
                     @Override
                     public void onFailure(Call<ClientResponse> call, Throwable t) {
@@ -139,9 +165,16 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("destination", "kakaBoudin"); // Pass any data you want to the new activity
                 startActivity(intent);
-                Toast.makeText(getContext(),"Inscription réussi", Toast.LENGTH_SHORT).show();
             }
         });
+        }
         return view;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = this.getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 }

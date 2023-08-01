@@ -5,7 +5,7 @@ exports.getListClients = () => {
 };
 
 exports.loginClients = (email, mdp) => {
-    return db.clients.find({"email":email,"mdp":mdp}).exec();
+    return db.clients.findOne({"email":email,"mdp":mdp}).exec();
 };
 
 exports.inscriptionClients=(nom, prenom, email, mdp, telephone) =>{

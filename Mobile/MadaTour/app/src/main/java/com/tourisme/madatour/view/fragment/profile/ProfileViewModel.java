@@ -1,18 +1,5 @@
 package com.tourisme.madatour.view.fragment.profile;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.tourisme.madatour.model.Client;
-import com.tourisme.madatour.repository.ClientRespository;
-
-import java.util.List;
-
 public class ProfileViewModel /*extends AndroidViewModel*/ {
 
     /*private final MutableLiveData<String> mText;
