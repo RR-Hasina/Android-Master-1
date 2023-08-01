@@ -53,6 +53,7 @@ public class DetailsDestinationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     showPhotoCarouselDialog(destinationSelected.getPhotos());
+                    showPhotoCarouselDialog(destinationSelected.getPhotos());
                 }
             });
 

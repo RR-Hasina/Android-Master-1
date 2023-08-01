@@ -17,4 +17,15 @@ public class RetrofitInstance {
         }
         return retrofit.create(RestApiServiceDestination.class);
     }
+
+    public static RestApiServiceClient getApiServiceClient(){
+        if (retrofit == null) {
+            retrofit = new Retrofit
+                    .Builder()
+                    .baseUrl(Constant.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit.create(RestApiServiceClient.class);
+    }
 }

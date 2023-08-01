@@ -5,7 +5,7 @@ const db = {};
 
 db.mongoose = mongoose;
 
-db.client = require("./client.model");
+db.clients = require("./client.model");
 
 db.destinations = require("./destination.model");
 
