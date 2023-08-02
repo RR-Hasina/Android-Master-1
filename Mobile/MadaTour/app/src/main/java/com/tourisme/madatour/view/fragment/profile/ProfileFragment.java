@@ -118,6 +118,7 @@ public class ProfileFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("destination", "kakaBoudin"); // Pass any data you want to the new activity
                             startActivity(intent);
+                            Toast.makeText(getContext(),"Bienvenue "+sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(getContext(),"Erreur de connexion", Toast.LENGTH_SHORT).show();
                         }

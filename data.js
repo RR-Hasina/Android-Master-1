@@ -83,6 +83,7 @@ db.circuits.insertOne({
         "prix":"2500000",
         "statut":true
     },
+    "Guide":[],
     "reservation":[{}]
 });
 

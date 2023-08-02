@@ -6,7 +6,7 @@ router.get("/",(res,resp)=>{
     resp.send("Hello Circuit!");
 });
 
-router.post("/all",controller.getCircuit);
+router.get("/all",controller.getCircuit);
 
 module.exports=router;
 

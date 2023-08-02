@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tourisme.madatour.R;
 import com.tourisme.madatour.databinding.FragmentHomeBinding;
+import com.tourisme.madatour.model.Circuit;
 
 public class HomeFragment extends Fragment {
 
@@ -22,15 +24,8 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-        sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+        View view=inflater.inflate(R.layout.fragment_home,container,false);
+        return view;
     }
 
     @Override
