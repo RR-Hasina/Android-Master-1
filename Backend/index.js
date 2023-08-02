@@ -32,10 +32,12 @@ db.mongoose
 // routes
 const clientRouter = require("./app/routes/client.routes");
 const destinationRouter = require("./app/routes/destination.routes");
+const circuitRouter = require("./app/routes/circuit.routes");
 
 
 app.use("/client", clientRouter);
 app.use("/destination",destinationRouter);
+app.use("/circuit",circuitRouter);
 
 app.get("/", (req, resp) => {
   resp.send("Hello world!");

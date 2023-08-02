@@ -9,6 +9,8 @@ db.clients = require("./client.model");
 
 db.destinations = require("./destination.model");
 
+db.circuits = require("./circuit.model");
+
 db.ROLES = ["client"];
 
 module.exports = db;

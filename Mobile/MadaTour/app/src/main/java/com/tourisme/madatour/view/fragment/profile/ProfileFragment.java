@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=null;
         sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-        System.out.println("##############"+sharedPreferences.getString("username",null));
+
         if(sharedPreferences.getString("username",null)!=null){
             view=inflater.inflate(R.layout.fragment_reservation,container,false);
             this.btnDeconnexion=view.findViewById(R.id.btnDeconnexion);
