@@ -10,6 +10,7 @@ db.clients = require("./client.model");
 db.destinations = require("./destination.model");
 
 db.circuits = require("./circuit.model");
+db.guides = require("./guide.model");
 
 db.ROLES = ["client"];
 
