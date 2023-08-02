@@ -14,5 +14,11 @@ public class CircuitResponse {
 
     public void setCircuit(List<Circuit> nouveau){this.circuit=nouveau;}
 
+    public String toString() {
+        return "CircuitResponse{" +
+                "mCircuits=" + circuit +
+                '}';
+    }
+
 
 }
