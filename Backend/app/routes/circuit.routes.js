@@ -8,5 +8,11 @@ router.get("/",(res,resp)=>{
 
 router.get("/all",controller.getCircuit);
 
+router.post("/addReservation",controller.addReservation);
+
+router.post("/deleteReservation",controller.deleteReservation);
+
+router.post("/checkReservation",controller.checkReservation);
+
 module.exports=router;
 

@@ -8,13 +8,13 @@ public class Disponibilite implements Serializable{
     @SerializedName("date_fin")
     String date_fin;
     @SerializedName("disponible")
-    int disponible;
+    String disponible;
     @SerializedName("prix")
-    int prix;
+    String prix;
     @SerializedName("statut")
     boolean statut;
 
-    public Disponibilite(String date_debut, String date_fin, int disponible, int prix, boolean statut) {
+    public Disponibilite(String date_debut, String date_fin, String disponible, String prix, boolean statut) {
         this.date_debut = date_debut;
         this.date_fin = date_fin;
         this.disponible = disponible;
@@ -38,19 +38,19 @@ public class Disponibilite implements Serializable{
         this.date_fin = date_fin;
     }
 
-    public int getDisponible() {
+    public String getDisponible() {
         return disponible;
     }
 
-    public void setDisponible(int disponible) {
+    public void setDisponible(String disponible) {
         this.disponible = disponible;
     }
 
-    public int getPrix() {
+    public String getPrix() {
         return prix;
     }
 
-    public void setPrix(int prix) {
+    public void setPrix(String prix) {
         this.prix = prix;
     }
 
@@ -60,5 +60,12 @@ public class Disponibilite implements Serializable{
 
     public void setStatut(boolean statut) {
         this.statut = statut;
+    }
+
+    public String getValueStatut(){
+        if(this.statut==true){
+            return "Actif";
+        }
+        return "Non actif";
     }
 }

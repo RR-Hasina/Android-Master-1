@@ -6,11 +6,11 @@ public class Itineraire implements Serializable{
     @SerializedName("titre")
     String titre;
     @SerializedName("nbrJours")
-    int nbrJours;
+    String nbrJours;
     @SerializedName("trajets")
-    Trajet trajet;
+    List<Trajet> trajet;
 
-    public Itineraire(String titre, int nbrJours, Trajet trajet) {
+    public Itineraire(String titre, String nbrJours, List<Trajet> trajet) {
         this.titre = titre;
         this.nbrJours = nbrJours;
         this.trajet = trajet;
@@ -24,19 +24,19 @@ public class Itineraire implements Serializable{
         this.titre = titre;
     }
 
-    public int getNbrJours() {
+    public String getNbrJours() {
         return nbrJours;
     }
 
-    public void setNbrJours(int nbrJours) {
+    public void setNbrJours(String nbrJours) {
         this.nbrJours = nbrJours;
     }
 
-    public Trajet getTrajet() {
+    public List<Trajet> getTrajet() {
         return trajet;
     }
 
-    public void setTrajet(Trajet trajet) {
+    public void setTrajet(List<Trajet> trajet) {
         this.trajet = trajet;
     }
 }

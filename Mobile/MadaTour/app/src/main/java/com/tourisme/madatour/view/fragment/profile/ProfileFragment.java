@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Callback;
@@ -20,12 +21,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.tourisme.madatour.R;
+import com.tourisme.madatour.model.Circuit;
 import com.tourisme.madatour.model.Client;
+import com.tourisme.madatour.model.Reservation;
+import com.tourisme.madatour.network.RestApiServiceCircuit;
 import com.tourisme.madatour.network.RestApiServiceClient;
 import com.tourisme.madatour.network.RetrofitInstance;
+import com.tourisme.madatour.response.CircuitResponse;
 import com.tourisme.madatour.view.activity.MainActivity;
 import com.tourisme.madatour.response.ClientResponse;
+import com.tourisme.madatour.view.fragment.home.HomeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +51,7 @@ public class ProfileFragment extends Fragment {
      Button btnConnexion, btnInscription, btnDeconnexion;
      EditText emailConnexion, mdpConnexion;
      EditText nomInscription, prenomInscription, emailInscription, mdpInscription, telephoneInscription;
+     TextView circuitTableau, joursTableau, debutTableau, circuitPaiement;
 
 
     public ProfileFragment() {
@@ -77,12 +85,42 @@ public class ProfileFragment extends Fragment {
         if(sharedPreferences.getString("username",null)!=null){
             view=inflater.inflate(R.layout.fragment_reservation,container,false);
             this.btnDeconnexion=view.findViewById(R.id.btnDeconnexion);
+            this.circuitTableau=view.findViewById(R.id.circuitTableau);
+            this.debutTableau=view.findViewById(R.id.débutTableau);
+            this.joursTableau=view.findViewById(R.id.joursTableau);
+            this.circuitPaiement=view.findViewById(R.id.circuitPaiement);
+
+            RestApiServiceCircuit restApiServiceCircuit=RetrofitInstance.getApiServiceCircuit();
+            Call<CircuitResponse> call=restApiServiceCircuit.checkReservation(new Reservation("Faune et Flore",sharedPreferences.getString("idClient",null)));
+            call.enqueue(new Callback<CircuitResponse>() {
+                @Override
+                public void onResponse(Call<CircuitResponse> call, Response<CircuitResponse> response) {
+                    CircuitResponse circuitResponse = response.body();
+                    List<Circuit> listeCircuit=circuitResponse.getCircuit();
+                    if(listeCircuit.size()>0){
+                        circuitTableau.setText(listeCircuit.get(0).getNom());
+                        debutTableau.setText(listeCircuit.get(0).getDisponibilite().getDate_debut());
+                        joursTableau.setText(listeCircuit.get(0).getItineraire().getNbrJours());
+                        circuitPaiement.setText("Payé");
+                    }else{
+                        circuitTableau.setText(" - ");
+                        debutTableau.setText(" - ");
+                        joursTableau.setText(" - ");
+                        circuitPaiement.setText(" - ");
+                    }
+                }
+                @Override
+                public void onFailure(Call<CircuitResponse> call, Throwable t) {
+
+                }
+            });
             this.btnDeconnexion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.remove("username");
+                    editor.remove("idClient");
                     editor.commit();
                     replaceFragment(new ProfileFragment());
                 }
@@ -114,9 +152,10 @@ public class ProfileFragment extends Fragment {
                         Client listeClient= (Client) clientWrapper.getClient();
                         if (listeClient!=null){
                             editor.putString("username",listeClient.getNom());
+                            editor.putString("idClient",listeClient.getId());
                             editor.commit();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
-                            intent.putExtra("destination", "kakaBoudin"); // Pass any data you want to the new activity
+                            intent.putExtra("destination", ""); // Pass any data you want to the new activity
                             startActivity(intent);
                             Toast.makeText(getContext(),"Bienvenue "+sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
                         }else{
@@ -153,8 +192,6 @@ public class ProfileFragment extends Fragment {
                     public void onResponse(Call<ClientResponse> call, Response<ClientResponse> response) {
                         ClientResponse clientWrapper = response.body();
                         Client listeClient= (Client) clientWrapper.getClient();
-
-
                         sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
                         Toast.makeText(getContext(),sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
                     }
@@ -164,7 +201,7 @@ public class ProfileFragment extends Fragment {
                     }
                 });
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("destination", "kakaBoudin"); // Pass any data you want to the new activity
+                intent.putExtra("destination", ""); // Pass any data you want to the new activity
                 startActivity(intent);
             }
         });

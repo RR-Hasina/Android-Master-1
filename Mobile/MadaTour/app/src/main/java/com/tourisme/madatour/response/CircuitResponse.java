@@ -10,15 +10,13 @@ public class CircuitResponse {
     @SerializedName("circuits")
     private List<Circuit> circuit;
 
-    public List<Circuit> getCircuit(){return this.circuit;}
+    public List<Circuit> getCircuit(){
+        return this.circuit;
+    }
 
     public void setCircuit(List<Circuit> nouveau){this.circuit=nouveau;}
 
-    public String toString() {
-        return "CircuitResponse{" +
-                "mCircuits=" + circuit +
-                '}';
-    }
+
 
 
 }

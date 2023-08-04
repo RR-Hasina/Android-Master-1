@@ -10,11 +10,19 @@ const Circuit = mongoose.model(
         },
         photos: [],
         tags: [],
-        itineraire: {
+        itineraires: {
             titre: String,
             nbrJours: Number,
             trajets: []
-        }
+        },
+        disponibilite:{
+            "date_debut":String,
+            "date_fin":String,
+            "disponible":Number,
+            "prix":String,
+            "statut":String
+        },
+        reservation:[]
     })
 );
 

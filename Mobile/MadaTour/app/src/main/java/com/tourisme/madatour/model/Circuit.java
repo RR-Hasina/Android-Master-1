@@ -14,8 +14,12 @@ public class Circuit implements Serializable{
     List<String> photos;
     @SerializedName("tags")
     List<String> tags;
-    @SerializedName("itineraire")
+    @SerializedName("itineraires")
     Itineraire itineraire;
+    @SerializedName("disponibilite")
+    Disponibilite disponibilite;
+    @SerializedName("reservation")
+    List<String> listeReservation;
 
     public Circuit(String _id, String nom, Description description, List<String> photos, List<String> tags, Itineraire itineraire) {
         this._id = _id;
@@ -24,6 +28,14 @@ public class Circuit implements Serializable{
         this.photos = photos;
         this.tags = tags;
         this.itineraire = itineraire;
+    }
+
+    public Disponibilite getDisponibilite() {
+        return disponibilite;
+    }
+
+    public void setDisponibilite(Disponibilite disponibilite) {
+        this.disponibilite = disponibilite;
     }
 
     public String get_id() {
@@ -72,5 +84,13 @@ public class Circuit implements Serializable{
 
     public void setItineraire(Itineraire itineraire) {
         this.itineraire = itineraire;
+    }
+
+    public List<String> getListeReservation() {
+        return listeReservation;
+    }
+
+    public void setListeReservation(List<String> listeReservation) {
+        this.listeReservation = listeReservation;
     }
 }

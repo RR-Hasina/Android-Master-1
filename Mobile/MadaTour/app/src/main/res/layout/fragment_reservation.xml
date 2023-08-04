@@ -29,21 +29,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nom de voyage"
+                android:text="Circuit"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nombre de jour"
+                android:text="Nombres Jours"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Date Début"
+                android:text="Début"
+                android:padding="20dp"
                 android:textColor="#FFFFFF" />
 
             <TextView
@@ -63,29 +64,38 @@
 
 
             <TextView
+                android:id="@+id/circuitTableau"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Vacances à la plage" />
+                android:textStyle="bold"
+                />
 
             <TextView
+                android:id="@+id/joursTableau"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="7" />
+                android:textStyle="bold"
+                />
 
             <TextView
+                android:id="@+id/débutTableau"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="2023-08-15" />
+                android:textStyle="bold"
+                />
 
             <TextView
+                android:id="@+id/circuitPaiement"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Payé" />
+                android:textStyle="bold"
+                />
         </TableRow>
+
 
         <Button
             android:id="@+id/btnDeconnexion"
