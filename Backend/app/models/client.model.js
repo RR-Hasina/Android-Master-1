@@ -10,3 +10,4 @@ const Client = mongoose.model(
         telephone: String
     })
 );
+module.exports = Client;

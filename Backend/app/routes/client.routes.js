@@ -7,6 +7,8 @@ router.get("/",(res,resp)=>{
     resp.send("Hello Client!");
 })
 
-router.get("/liste",controller.listeClient);
+router.get("/liste",controller.getListClients);
+router.post("/login",controller.login);
+router.post("/inscription",controller.inscription);
 
 module.exports = router;

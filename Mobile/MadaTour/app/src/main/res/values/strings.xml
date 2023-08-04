@@ -1,18 +1,15 @@
 <resources>
     <string name="app_name">MadaTour</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Circuit</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_settings">SettingsActivity</string>
-
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Theme</string>
-
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
-
     <!-- Sync Preferences -->
     <string name="sync_title">Mode sombre</string>
     <string name="attachment_title">Download incoming attachments</string>
@@ -22,13 +19,14 @@
     <string name="image">testa</string>
     <string name="Titre_Destination">Les plus belles destinations de Madagascar</string>
     <string name="Sous_Titre_destination">Guide des plus belles destinations touristiques à découvrir lors de votre voyage à Madagascar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_details_activite">DetailsActiviteActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

@@ -38,6 +38,7 @@ import com.tourisme.madatour.view.fragment.attraction.AttractionFragment;
 import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
 import com.tourisme.madatour.view.fragment.home.HomeFragment;
 import com.tourisme.madatour.view.fragment.notifications.NotificationsFragment;
+import com.tourisme.madatour.view.fragment.profile.ProfileFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -81,8 +82,11 @@ public class MainActivity extends AppCompatActivity {
                     // Cacher l'élément de menu en le rendant invisible (false) ou le montrer (true)
                     itemToHide.setVisible(false); // Changez à true pour le montrer
                     break;
+                case R.id.navigation_profile:
+                    replaceFragment(new ProfileFragment());
+                    toolbar.setTitle("Profile");
+                    itemToHide.setVisible(false);
             }
-
             return true;
         });
         navView.findViewById(R.id.navigation_dashboard).setOnClickListener(new View.OnClickListener() {

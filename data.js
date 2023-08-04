@@ -32,6 +32,10 @@ db.circuits.insertOne({
             },
             {
                 "lieu_depart":"Séjour libre à Ifaty",
+                "lieu_arrivee":null,
+                "duree":null,
+                "distance":null,
+                "transport":null,
                 "description":"Ifaty, Mangily, Madiorano et Ambolimailaka sont de petits villages qui font face au lagon majestueux de Ranobe à l’eau turquoise, réputé pour sa barrière de corail. Ils font ici office de stations balnéaires."
             },
             {
@@ -83,6 +87,7 @@ db.circuits.insertOne({
         "prix":"2500000",
         "statut":true
     },
-    "reservation":[{}]
+    "Guide":[],
+    "reservation":[]
 });
 

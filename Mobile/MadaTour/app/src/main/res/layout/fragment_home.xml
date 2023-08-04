@@ -1,22 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/profileContainer"
     tools:context=".view.fragment.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Le circuit proposé par l'équipe cette annee"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:padding="16dp"
+            />
+
+        <TextView
+            android:id="@+id/circuitTitre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:id="@+id/circuitInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:padding="8dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/circuitImage1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_home_black_24dp"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/circuitImage2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_home_black_24dp"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/circuitImage3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_home_black_24dp"
+                android:scaleType="centerCrop"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/circuitItineraire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Itineraire : Antananarivo - Tulear"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:padding="8dp"
+            />
+
+        <!-- Tableau pour l'itinéraire -->
+        <TableLayout
+            android:id="@+id/talbeauLayoutTrajet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <!-- En-tête du tableau -->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2196F3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Départ"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Arrivée"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Durée"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Distance"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Transport"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+            </TableRow>
+
+            <!-- Lignes de données de l'itinéraire -->
+
+
+        </TableLayout>
+
+
+        <!-- Tableau pour les informations de disponibilité -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <!-- En-tête du tableau -->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2196F3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date de début"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date de fin"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Disponible"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Prix (FMG)"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Statut"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="8dp"
+                    />
+            </TableRow>
+
+            <!-- Ligne de données de disponibilité -->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/circuitDebut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/circuitFin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/circuitDisponible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/circuitPrix"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/circuitStatut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    />
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/btnReservation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Réserver une place"
+            android:textColor="#fff"
+            android:background="#2196F3"
+            android:padding="16dp"
+            android:layout_margin="16dp"
+            />
+    </LinearLayout>
+</ScrollView>
