@@ -1,6 +1,8 @@
 package com.tourisme.madatour.view.fragment.profile;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import com.tourisme.madatour.network.RetrofitInstance;
 import com.tourisme.madatour.response.CircuitResponse;
 import com.tourisme.madatour.view.activity.MainActivity;
 import com.tourisme.madatour.response.ClientResponse;
+import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
 import com.tourisme.madatour.view.fragment.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     SharedPreferences sharedPreferences;
 
-     Button btnConnexion, btnInscription, btnDeconnexion;
+     Button btnConnexion, btnInscription, btnDeconnexion, btnSuppression;
      EditText emailConnexion, mdpConnexion;
      EditText nomInscription, prenomInscription, emailInscription, mdpInscription, telephoneInscription;
      TextView circuitTableau, joursTableau, debutTableau, circuitPaiement;
@@ -85,6 +88,7 @@ public class ProfileFragment extends Fragment {
         if(sharedPreferences.getString("username",null)!=null){
             view=inflater.inflate(R.layout.fragment_reservation,container,false);
             this.btnDeconnexion=view.findViewById(R.id.btnDeconnexion);
+            this.btnSuppression=view.findViewById(R.id.btnSupprimer);
             this.circuitTableau=view.findViewById(R.id.circuitTableau);
             this.debutTableau=view.findViewById(R.id.débutTableau);
             this.joursTableau=view.findViewById(R.id.joursTableau);
@@ -102,16 +106,56 @@ public class ProfileFragment extends Fragment {
                         debutTableau.setText(listeCircuit.get(0).getDisponibilite().getDate_debut());
                         joursTableau.setText(listeCircuit.get(0).getItineraire().getNbrJours());
                         circuitPaiement.setText("Payé");
+
                     }else{
                         circuitTableau.setText(" - ");
                         debutTableau.setText(" - ");
                         joursTableau.setText(" - ");
                         circuitPaiement.setText(" - ");
+                        btnSuppression.setEnabled(false);
                     }
                 }
                 @Override
                 public void onFailure(Call<CircuitResponse> call, Throwable t) {
 
+                }
+            });
+            this.btnSuppression.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Êtes-vous sûr de supprimer votre réservation?")
+                            .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Toast.makeText(getContext(),"Votre billet a été supprimé avec succes", Toast.LENGTH_SHORT).show();
+                                    sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                                    String idClient = sharedPreferences.getString("idClient",null);
+                                    RestApiServiceCircuit restApiServiceCircuit = RetrofitInstance.getApiServiceCircuit();
+                                    Call<CircuitResponse> call = restApiServiceCircuit.deleteReservation(new Reservation("Faune et Flore",idClient));
+
+                                    call.enqueue(new Callback<CircuitResponse>() {
+                                        @Override
+                                        public void onResponse(Call<CircuitResponse> call, Response<CircuitResponse> response) {
+                                            CircuitResponse circuitResponse = response.body();
+                                            List<Circuit> listeCircuit=circuitResponse.getCircuit();
+                                        }
+                                        @Override
+                                        public void onFailure(Call<CircuitResponse> call, Throwable t) {
+
+                                        }
+                                    });
+                                    replaceFragment(new DashboardFragment());
+                                }
+                            }).setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
             });
             this.btnDeconnexion.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +175,7 @@ public class ProfileFragment extends Fragment {
         this.emailConnexion=view.findViewById(R.id.emailConnexion);
         this.mdpConnexion=view.findViewById(R.id.mdpConnexion);
         this.btnConnexion=view.findViewById(R.id.btnConnexion);
+
 
         this.btnConnexion.setOnClickListener(new View.OnClickListener() {
             @Override

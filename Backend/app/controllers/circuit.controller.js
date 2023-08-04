@@ -7,7 +7,6 @@ exports.getCircuit = async (req, res) => {
 };
 
 exports.checkReservation = async (req, res)=>{
-  console.log(req.body.idClient)
   const liste = await service.checkReservation(req.body.idClient);
   res.send({circuits: liste});
 }
@@ -23,6 +22,8 @@ exports.addReservation = (req, res) => {
   });
 }
 
+
+
 exports.deleteReservation = (req, res) => {
   Circuit.findOne({
     nom: req.body.circuitNom
@@ -33,4 +34,22 @@ exports.deleteReservation = (req, res) => {
     circuit.save();
     res.status(200).send({ circuits: circuit });
   });
+}
+
+exports.deleteReservation = (req,res) =>{
+  Circuit.findOne({
+    nom:"Faune et Flore"
+  }).exec().then((circuit)=>{
+    circuit.disponibilite.disponible++;
+    for(let i =0; i<circuit.reservation.length;i++){
+      console.log(req.body.idClient+"########");
+      if(circuit.reservation[i]==req.body.idClient){
+        circuit.reservation.splice(i,1);
+        console.log(req.body.idClient+"########");
+        i--;
+      }
+    }
+    circuit.save();
+    res.status(200).send({circuits: circuit});
+  })
 }

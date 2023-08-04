@@ -96,7 +96,16 @@
                 />
         </TableRow>
 
-
+        <Button
+            android:id="@+id/btnSupprimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Supprimer reservation"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_background"
+            android:padding="8dp"
+            android:layout_margin="16dp" />
         <Button
             android:id="@+id/btnDeconnexion"
             android:layout_width="wrap_content"
@@ -107,8 +116,7 @@
             android:background="@drawable/button_background"
             android:padding="8dp"
             android:layout_margin="16dp" />
-        <!-- Ajoutez d'autres lignes du tableau pour plus de réservations ici si nécessaire -->
-        <!-- TableRow pour chaque réservation -->
+
     </TableLayout>
 
 </ScrollView>

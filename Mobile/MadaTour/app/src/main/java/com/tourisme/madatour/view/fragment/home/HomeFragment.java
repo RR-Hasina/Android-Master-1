@@ -152,7 +152,6 @@ public class HomeFragment extends Fragment {
                 btnReservation=view.findViewById(R.id.btnReservation);
                 int ok = 0;
                 sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-
                 if(sharedPreferences.getString("idClient",null)!=null) {
                     for (int i = 0; i < circuitList.get(0).getListeReservation().size(); i++) {
                         if(circuitList.get(0).getListeReservation().get(i).equals(sharedPreferences.getString("idClient",null))){
@@ -160,11 +159,10 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 }
-
                 if(Integer.parseInt(circuitList.get(0).getDisponibilite().getDisponible())<1){
                     btnReservation.setEnabled(false);
                     btnReservation.setText("Place indisponible");
-                }else if(ok==0){
+                }else if(ok>0){
                         btnReservation.setText("Voir billet");
                         btnReservation.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -205,7 +203,6 @@ public class HomeFragment extends Fragment {
                                                 });
                                                 replaceFragment(new DashboardFragment());
                                             }
-
                                         })
                                         .setNegativeButton("Non", new DialogInterface.OnClickListener() {
                                             @Override
