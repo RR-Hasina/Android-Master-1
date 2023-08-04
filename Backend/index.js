@@ -44,6 +44,4 @@ app.get("/", (req, resp) => {
   resp.send("Hello world!");
 });
 
-app.listen(4200,()=>{
-  console.log("En ecoute sur 4200");
-});
+app.listen();
