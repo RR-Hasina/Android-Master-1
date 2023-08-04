@@ -1,10 +1,16 @@
 package com.tourisme.madatour.view.fragment.profile;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +25,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Call;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -56,6 +65,8 @@ public class ProfileFragment extends Fragment {
      EditText nomInscription, prenomInscription, emailInscription, mdpInscription, telephoneInscription;
      TextView circuitTableau, joursTableau, debutTableau, circuitPaiement;
 
+    NotificationManagerCompat notificationManagerCompat;
+    Notification notification;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -128,6 +139,28 @@ public class ProfileFragment extends Fragment {
                             .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        NotificationChannel notificationChannel = new NotificationChannel("MyChn", "My Channel", NotificationManager.IMPORTANCE_DEFAULT);
+                                        NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+                                        manager.createNotificationChannel(notificationChannel);
+                                    }
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "MyChn")
+                                            .setSmallIcon(android.R.drawable.btn_radio)
+                                            .setContentTitle("MadaTour")
+                                            .setContentText("Vous aviez supprimer votre billet de réservation!");
+                                    notification = builder.build();
+                                    notificationManagerCompat = NotificationManagerCompat.from(getActivity());
+                                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                        // TODO: Consider calling
+                                        //    ActivityCompat#requestPermissions
+                                        // here to request the missing permissions, and then overriding
+                                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                        //                                          int[] grantResults)
+                                        // to handle the case where the user grants the permission. See the documentation
+                                        // for ActivityCompat#requestPermissions for more details.
+                                        return;
+                                    }
+                                    notificationManagerCompat.notify(1, notification);
                                     Toast.makeText(getContext(),"Votre billet a été supprimé avec succes", Toast.LENGTH_SHORT).show();
                                     sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
                                     String idClient = sharedPreferences.getString("idClient",null);

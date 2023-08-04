@@ -2,12 +2,18 @@ package com.tourisme.madatour.view.fragment.home;
 
 import static android.content.Intent.getIntent;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -70,19 +80,22 @@ public class HomeFragment extends Fragment {
     Button btnReservation;
     int compteur;
 
+    NotificationManagerCompat notificationManagerCompat;
+    Notification notification;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         RestApiServiceCircuit apiServiceCircuit = RetrofitInstance.getApiServiceCircuit();
         Call<CircuitResponse> call = apiServiceCircuit.getCircuitList();
-        circuitTitre=view.findViewById(R.id.circuitTitre);
-        circuitInfo=view.findViewById(R.id.circuitInfo);
-        circuitImage1=view.findViewById(R.id.circuitImage1);
-        circuitImage2=view.findViewById(R.id.circuitImage2);
-        circuitImage3=view.findViewById(R.id.circuitImage3);
-        circuitItineraire=view.findViewById(R.id.circuitItineraire);
-        tableLayoutTrajets=view.findViewById(R.id.talbeauLayoutTrajet);
+        circuitTitre = view.findViewById(R.id.circuitTitre);
+        circuitInfo = view.findViewById(R.id.circuitInfo);
+        circuitImage1 = view.findViewById(R.id.circuitImage1);
+        circuitImage2 = view.findViewById(R.id.circuitImage2);
+        circuitImage3 = view.findViewById(R.id.circuitImage3);
+        circuitItineraire = view.findViewById(R.id.circuitItineraire);
+        tableLayoutTrajets = view.findViewById(R.id.talbeauLayoutTrajet);
         call.enqueue(new Callback<CircuitResponse>() {
             @Override
             public void onResponse(Call<CircuitResponse> call, Response<CircuitResponse> response) {
@@ -95,7 +108,7 @@ public class HomeFragment extends Fragment {
                 Picasso.get().load(circuitList.get(0).getPhotos().get(1)).into(circuitImage2);
                 Picasso.get().load(circuitList.get(0).getPhotos().get(2)).into(circuitImage3);
                 circuitItineraire.setText(circuitList.get(0).getItineraire().getTitre());
-                List<Trajet> trajet=circuitList.get(0).getItineraire().getTrajet();
+                List<Trajet> trajet = circuitList.get(0).getItineraire().getTrajet();
                 for (int i = 0; i < trajet.size(); i++) {
                     TableRow tableRow = new TableRow(getActivity());
                     TextView circuitDepart = new TextView(getActivity());
@@ -139,50 +152,73 @@ public class HomeFragment extends Fragment {
                         tableLayoutTrajets.addView(separator);
                     }
                 }
-                circuitDebut=view.findViewById(R.id.circuitDebut);
+                circuitDebut = view.findViewById(R.id.circuitDebut);
                 circuitDebut.setText(circuitList.get(0).getDisponibilite().getDate_debut());
-                circuitFin=view.findViewById(R.id.circuitFin);
+                circuitFin = view.findViewById(R.id.circuitFin);
                 circuitFin.setText(circuitList.get(0).getDisponibilite().getDate_fin());
-                circuitDisponible=view.findViewById(R.id.circuitDisponible);
+                circuitDisponible = view.findViewById(R.id.circuitDisponible);
                 circuitDisponible.setText(circuitList.get(0).getDisponibilite().getDisponible());
-                circuitPrix=view.findViewById(R.id.circuitPrix);
+                circuitPrix = view.findViewById(R.id.circuitPrix);
                 circuitPrix.setText(circuitList.get(0).getDisponibilite().getPrix());
-                circuitStatut=view.findViewById(R.id.circuitStatut);
+                circuitStatut = view.findViewById(R.id.circuitStatut);
                 circuitStatut.setText(circuitList.get(0).getDisponibilite().getValueStatut());
-                btnReservation=view.findViewById(R.id.btnReservation);
+                btnReservation = view.findViewById(R.id.btnReservation);
                 int ok = 0;
-                sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-                if(sharedPreferences.getString("idClient",null)!=null) {
+                sharedPreferences = getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                if (sharedPreferences.getString("idClient", null) != null) {
                     for (int i = 0; i < circuitList.get(0).getListeReservation().size(); i++) {
-                        if(circuitList.get(0).getListeReservation().get(i).equals(sharedPreferences.getString("idClient",null))){
-                            ok+=1;
+                        if (circuitList.get(0).getListeReservation().get(i).equals(sharedPreferences.getString("idClient", null))) {
+                            ok += 1;
                         }
                     }
                 }
-                if(Integer.parseInt(circuitList.get(0).getDisponibilite().getDisponible())<1){
+                if (Integer.parseInt(circuitList.get(0).getDisponibilite().getDisponible()) < 1) {
                     btnReservation.setEnabled(false);
                     btnReservation.setText("Place indisponible");
-                }else if(ok>0){
-                        btnReservation.setText("Voir billet");
-                        btnReservation.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Fragment ProfileFragment=new ProfileFragment();
-                                replaceFragment(ProfileFragment);
-
-                            }
-                        });
-                }else{
+                } else if (ok > 0) {
+                    btnReservation.setText("Voir billet");
                     btnReservation.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-                            if(sharedPreferences.getString("idClient",null)!=null) {
+                            Fragment ProfileFragment = new ProfileFragment();
+                            replaceFragment(ProfileFragment);
+
+                        }
+                    });
+                } else {
+                    btnReservation.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            sharedPreferences = getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                            if (sharedPreferences.getString("idClient", null) != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Êtes-vous sûr de valider la réservation?")
                                         .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    NotificationChannel notificationChannel = new NotificationChannel("MyChn", "My Channel", NotificationManager.IMPORTANCE_DEFAULT);
+                                                    NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+                                                    manager.createNotificationChannel(notificationChannel);
+                                                }
+                                                NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "MyChn")
+                                                        .setSmallIcon(android.R.drawable.btn_radio)
+                                                        .setContentTitle("MadaTour")
+                                                        .setContentText("Vous aviez acheté un billet de réservation au pres de MadaTour");
+                                                notification = builder.build();
+                                                notificationManagerCompat = NotificationManagerCompat.from(getActivity());
+                                                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                                    // TODO: Consider calling
+                                                    //    ActivityCompat#requestPermissions
+                                                    // here to request the missing permissions, and then overriding
+                                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                    //                                          int[] grantResults)
+                                                    // to handle the case where the user grants the permission. See the documentation
+                                                    // for ActivityCompat#requestPermissions for more details.
+                                                    return;
+                                                }
+                                                notificationManagerCompat.notify(1, notification);
+
                                                 compteur=0;
                                                 // User clicked "Yes," proceed with the reservation
                                                 String idClient=sharedPreferences.getString("idClient",null);
