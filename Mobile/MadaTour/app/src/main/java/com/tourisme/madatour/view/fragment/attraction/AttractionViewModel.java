@@ -20,8 +20,8 @@ public class AttractionViewModel extends AndroidViewModel {
         attractionRepository = new GuideRepository(application);
     }
 
-    public LiveData<List<Guide>> getAttractionList() {
-        return attractionRepository.getAttractionList();
+    public LiveData<List<Guide>> getAttractionList(int page,int limite) {
+        return attractionRepository.getAttractionList(page,limite);
     }
 
     public LiveData<List<Guide>> getAttractionListBysearch(String keyWord) {

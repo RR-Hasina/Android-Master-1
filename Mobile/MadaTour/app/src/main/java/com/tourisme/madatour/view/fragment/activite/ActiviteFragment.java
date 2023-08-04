@@ -1,6 +1,7 @@
 package com.tourisme.madatour.view.fragment.activite;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.tourisme.madatour.R;
+import com.tourisme.madatour.constant.Constant;
 import com.tourisme.madatour.databinding.FragmentActiviteBinding;
 import com.tourisme.madatour.model.Guide;
 import com.tourisme.madatour.view.activity.DetailsActiviteActivity;
@@ -40,6 +42,12 @@ public class ActiviteFragment extends Fragment {
 
     GuideAdapter guideAdapter;
     private ProgressBar pgsBar;
+    private int page = 1;
+
+    ProgressBar scrollpBar;
+    NestedScrollView nestedScrollView;
+
+    boolean state = true;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -49,19 +57,37 @@ public class ActiviteFragment extends Fragment {
         binding = FragmentActiviteBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
         View root = binding.getRoot();
+        nestedScrollView = binding.NestedScroll;
         recyclerView=binding.idActiviteRV;
         pgsBar = binding.pBarA;
+        scrollpBar = binding.scrollpBar;
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+           @Override
+           public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+               if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                   page++;
+                   scrollpBar.setVisibility(View.VISIBLE);
+                   state = true;
+                   getActiviteList();
+               }
+           }
+       });
+        state = false;
         getActiviteList();
         return root;
     }
 
     public void getActiviteList() {
-        mViewModel.getActiviteList().observe(this, new Observer<List<Guide>>() {
-            @Override
-            public void onChanged(@Nullable List<Guide> attractions) {
-                setRecyclerView(attractions);
-            }
-        });
+        if(!state) {
+            mViewModel.getActiviteList(page, Constant.LIMITE_DATA_PAGINATION).observe(this, new Observer<List<Guide>>() {
+                @Override
+                public void onChanged(@Nullable List<Guide> attractions) {
+                    setRecyclerView(attractions);
+                }
+            });
+        }else{
+            mViewModel.getActiviteList(page, Constant.LIMITE_DATA_PAGINATION);
+        }
 
     }
 
@@ -84,7 +110,12 @@ public class ActiviteFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        pgsBar.setVisibility(View.GONE);
+        if(state){
+            scrollpBar.setVisibility(View.GONE);
+        }else{
+            pgsBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
         recyclerView.setAdapter(guideAdapter);
         guideAdapter.notifyDataSetChanged();
     }
@@ -106,8 +137,12 @@ public class ActiviteFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //guideAdapter.getFilter().filter(newText);
-                if(newText.compareTo("") != 0 )  pgsBar.setVisibility(View.VISIBLE);
-                mViewModel.getActiviteListBysearch(newText);
+                if(newText.compareTo("") != 0 ){
+                    state = false;
+                    pgsBar.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    mViewModel.getActiviteListBysearch(newText);
+                }
                 return true;
             }
         });

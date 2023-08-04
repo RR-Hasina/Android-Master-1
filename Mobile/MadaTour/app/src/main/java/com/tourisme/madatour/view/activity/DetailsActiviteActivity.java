@@ -2,13 +2,16 @@ package com.tourisme.madatour.view.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -44,6 +47,17 @@ public class DetailsActiviteActivity extends AppCompatActivity {
             Picasso.get().load(activiteSelected.getPhotos().get(0)).into(photoActivite);
             String activiteDescription = activiteSelected.getDescription();
             Log.d("gga", " - > postion    " + activiteDescription);
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                contentActivite.getSettings().setJavaScriptEnabled(true);
+                contentActivite.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        // Inject CSS on PageFinished
+                        injectCSS();
+                        super.onPageFinished(view, url);
+                    }
+                });
+            }
             contentActivite.loadData(activiteDescription, "text/html", "utf-8");
             buttonPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,5 +90,14 @@ public class DetailsActiviteActivity extends AppCompatActivity {
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void injectCSS() {
+        contentActivite.loadUrl(
+                "javascript:document.body.style.setProperty(\"color\", \"white\");"
+        );
+        contentActivite.loadUrl(
+                "javascript:document.body.style.setProperty(\"background-color\", \"#303030\");"
+        );
     }
 }

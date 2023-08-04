@@ -1,7 +1,8 @@
 const db = require("../models");
 
-exports.getlistDestinations = () => {
-  return db.destinations.find();
+exports.getlistDestinations = (page,limite) => {
+  const skip = (page - 1) * limite;
+  return db.destinations.find().skip(skip).limit(limite).exec();
 };
 
 exports.getlistDestinationsBysearch = (keyWord) => {

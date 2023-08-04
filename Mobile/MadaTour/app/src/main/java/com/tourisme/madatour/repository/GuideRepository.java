@@ -32,9 +32,9 @@ public class GuideRepository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Guide>> getActiviteList() {
+    public MutableLiveData<List<Guide>> getActiviteList(int page,int limite) {
         RestApiServiceGuide apiService = RetrofitInstance.getApiServiceGuide();
-        Call<GuideResponse> call = apiService.getActiviteList();
+        Call<GuideResponse> call = apiService.getActiviteList(page,limite);
         call.enqueue(new Callback<GuideResponse>() {
             @Override
             public void onResponse(Call<GuideResponse> call, Response<GuideResponse> response) {
@@ -53,9 +53,9 @@ public class GuideRepository {
         return mActiviteList;
     }
 
-    public MutableLiveData<List<Guide>> getAttractionList() {
+    public MutableLiveData<List<Guide>> getAttractionList(int page,int limite) {
         RestApiServiceGuide apiService = RetrofitInstance.getApiServiceGuide();
-        Call<GuideResponse> call = apiService.getAttractionList();
+        Call<GuideResponse> call = apiService.getAttractionList(page,limite);
         call.enqueue(new Callback<GuideResponse>() {
             @Override
             public void onResponse(Call<GuideResponse> call, Response<GuideResponse> response) {

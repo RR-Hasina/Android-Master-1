@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tourisme.madatour.R;
+import com.tourisme.madatour.constant.Constant;
 import com.tourisme.madatour.databinding.FragmentDashboardBinding;
 import com.tourisme.madatour.model.Destination;
 import com.tourisme.madatour.view.activity.DetailsDestinationActivity;
@@ -39,6 +41,12 @@ public class DashboardFragment extends Fragment {
     private DashboardViewModel dashboardViewModel;
     DestinationAdapter destinationAdapter;
     private ProgressBar pgsBar;
+    private int page = 1;
+
+    ProgressBar scrollpBar;
+    NestedScrollView nestedScrollView;
+
+    boolean state = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,19 +55,39 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
         View root = binding.getRoot();
+        nestedScrollView = binding.NestedScroll;
         recyclerView=binding.idDesinationRV;
         pgsBar = binding.pBar;
+        scrollpBar = binding.scrollpBar;
+        nestedScrollView.setOnScrollChangeListener(new
+           NestedScrollView.OnScrollChangeListener() {
+               @Override
+               public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                   if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                       page++;
+                       scrollpBar.setVisibility(View.VISIBLE);
+                       state = true;
+                       getDestinationList();
+                   }
+               }
+           });
+        state = false;
         getDestinationList();
         return root;
     }
 
     public void getDestinationList() {
-        dashboardViewModel.getDestinationList().observe(this, new Observer<List<Destination>>() {
-            @Override
-            public void onChanged(@Nullable List<Destination> destinations) {
-                setRecyclerView(destinations);
-            }
-        });
+        if(!state){
+            dashboardViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION).observe(this, new Observer<List<Destination>>() {
+                @Override
+                public void onChanged(@Nullable List<Destination> destinations) {
+                    setRecyclerView(destinations);
+                }
+            });
+        }else {
+            dashboardViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION);
+        }
+
 
     }
 
@@ -82,7 +110,12 @@ public class DashboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        pgsBar.setVisibility(View.GONE);
+        if(state){
+            scrollpBar.setVisibility(View.GONE);
+        }else{
+            pgsBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
         recyclerView.setAdapter(destinationAdapter);
         destinationAdapter.notifyDataSetChanged();
     }
@@ -111,8 +144,12 @@ public class DashboardFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 // destinationAdapter.getFilter().filter(newText);
-                if(newText.compareTo("") != 0 )  pgsBar.setVisibility(View.VISIBLE);
-                dashboardViewModel.getDestinationListBysearch(newText);
+                if(newText.compareTo("") != 0 ){
+                    state = false;
+                    pgsBar.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    dashboardViewModel.getDestinationListBysearch(newText);
+                }
                 return true;
             }
         });

@@ -26,9 +26,9 @@ public class DestinationRespository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Destination>> getDestinationList() {
+    public MutableLiveData<List<Destination>> getDestinationList(int page,int limite) {
         RestApiServiceDestination apiService = RetrofitInstance.getApiService();
-        Call<DestinationResponse> call = apiService.getDestinationList();
+        Call<DestinationResponse> call = apiService.getDestinationList(page,limite);
         call.enqueue(new Callback<DestinationResponse>() {
             @Override
             public void onResponse(Call<DestinationResponse> call, Response<DestinationResponse> response) {

@@ -22,8 +22,8 @@ public class ActiviteViewModel extends AndroidViewModel {
         activiteRepository = new GuideRepository(application);
     }
 
-    public LiveData<List<Guide>> getActiviteList() {
-        return activiteRepository.getActiviteList();
+    public LiveData<List<Guide>> getActiviteList(int page,int limite) {
+        return activiteRepository.getActiviteList(page,limite);
     }
 
     public LiveData<List<Guide>> getActiviteListBysearch(String keyWord) {

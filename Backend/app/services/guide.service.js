@@ -1,11 +1,13 @@
 const db = require("../models");
 
-exports.getlistAttractions = () => {
-  return db.guides.find({ type : "attraction"});
+exports.getlistAttractions = (page,limite) => {
+   const skip = (page - 1) * limite;
+  return db.guides.find({ type : "attraction"}).skip(skip).limit(limite).exec();;
 };
 
-exports.getlistActivites = () => {
-    return db.guides.find({ type : "activite"});
+exports.getlistActivites = (page,limite) => {
+   const skip = (page - 1) * limite;
+    return db.guides.find({ type : "activite"}).skip(skip).limit(limite).exec();;
   };
 
   exports.getlistAttractionsBysearch = (keyWord) => {

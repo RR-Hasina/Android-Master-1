@@ -1,7 +1,9 @@
 package com.tourisme.madatour.view.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -45,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
     private String title;
     Toolbar toolbar;
+
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        checkTheme();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -182,5 +187,17 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
 
+    }
+
+    public void checkTheme(){
+        sharedPreferences = getSharedPreferences("theme", Context.MODE_PRIVATE);
+        String theme = sharedPreferences.getString("appearance", "system");
+        if (theme.equals("light")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (theme.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }

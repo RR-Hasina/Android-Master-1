@@ -1,7 +1,7 @@
 const service = require("../services/destination.service");
 
 exports.getlistDestinations = async (req, res) => {
-    const lista = await service.getlistDestinations();
+    const lista = await service.getlistDestinations(req.query.page,req.query.limite);
     res.send({ destinations: lista });
       };
 

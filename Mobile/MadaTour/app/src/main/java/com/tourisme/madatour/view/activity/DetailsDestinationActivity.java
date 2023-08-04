@@ -2,6 +2,7 @@ package com.tourisme.madatour.view.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -48,6 +50,17 @@ public class DetailsDestinationActivity extends AppCompatActivity {
             Picasso.get().load(destinationSelected.getPhotos().get(0)).into(photoDestination);
             String destinationDescription = destinationSelected.getDescription();
             Log.d("gga", " - > postion    " + destinationDescription);
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                contentDestination.getSettings().setJavaScriptEnabled(true);
+                contentDestination.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        // Inject CSS on PageFinished
+                        injectCSS();
+                        super.onPageFinished(view, url);
+                    }
+                });
+            }
             contentDestination.loadData(destinationDescription, "text/html", "utf-8");
             buttonPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,6 +121,15 @@ public class DetailsDestinationActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void injectCSS() {
+        contentDestination.loadUrl(
+                "javascript:document.body.style.setProperty(\"color\", \"white\");"
+        );
+        contentDestination.loadUrl(
+                "javascript:document.body.style.setProperty(\"background-color\", \"#303030\");"
+        );
     }
 
 }

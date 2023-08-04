@@ -1,12 +1,12 @@
 const service = require("../services/guide.service");
 
 exports.getlistAttractions = async (req, res) => {
-    const lista = await service.getlistAttractions();
+    const lista = await service.getlistAttractions(req.query.page,req.query.limite);
     res.send({ guides: lista });
       };
 
 exports.getlistActivites = async (req, res) => {
-    const lista = await service.getlistActivites();
+    const lista = await service.getlistActivites(req.query.page,req.query.limite);
     res.send({ guides: lista });
     };
 

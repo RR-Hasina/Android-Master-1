@@ -1,5 +1,6 @@
 package com.tourisme.madatour.view.activity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import com.tourisme.madatour.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationBack(toolbar,SettingsActivity.this);
         getSupportParentActivityIntent();
+        sharedPreferences = getSharedPreferences("theme", Context.MODE_PRIVATE);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -50,8 +53,10 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        sharedPreferences.edit().putString("appearance", "light").apply();
                     } else {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        sharedPreferences.edit().putString("appearance", "dark").apply();
                     }
                     return true;
                 }

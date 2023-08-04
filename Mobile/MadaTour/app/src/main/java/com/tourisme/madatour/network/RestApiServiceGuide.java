@@ -11,10 +11,10 @@ import retrofit2.http.Query;
 public interface RestApiServiceGuide {
 
     @GET("guide/allActivites")
-    Call<GuideResponse> getActiviteList();
+    Call<GuideResponse> getActiviteList(@Query("page") int page,@Query("limite") int limite);
 
     @GET("guide/allAttractions")
-    Call<GuideResponse> getAttractionList();
+    Call<GuideResponse> getAttractionList(@Query("page") int page,@Query("limite") int limite);
 
     @GET("guide/searchActivites")
     Call<GuideResponse> getActiviteListBysearch(@Query("keyWord") String keyword);

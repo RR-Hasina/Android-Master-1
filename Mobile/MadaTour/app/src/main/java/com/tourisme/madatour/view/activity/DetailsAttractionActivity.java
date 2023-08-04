@@ -2,6 +2,7 @@ package com.tourisme.madatour.view.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -48,6 +50,17 @@ public class DetailsAttractionActivity extends AppCompatActivity {
             Picasso.get().load(attractionSelected.getPhotos().get(0)).into(photoAttraction);
             String activiteDescription = attractionSelected.getDescription();
             Log.d("gga", " - > postion    " + activiteDescription);
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                contentAttraction.getSettings().setJavaScriptEnabled(true);
+                contentAttraction.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        // Inject CSS on PageFinished
+                        injectCSS();
+                        super.onPageFinished(view, url);
+                    }
+                });
+            }
             contentAttraction.loadData(activiteDescription, "text/html", "utf-8");
             buttonPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,5 +120,14 @@ public class DetailsAttractionActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void injectCSS() {
+        contentAttraction.loadUrl(
+                "javascript:document.body.style.setProperty(\"color\", \"white\");"
+        );
+        contentAttraction.loadUrl(
+                "javascript:document.body.style.setProperty(\"background-color\", \"#303030\");"
+        );
     }
 }
