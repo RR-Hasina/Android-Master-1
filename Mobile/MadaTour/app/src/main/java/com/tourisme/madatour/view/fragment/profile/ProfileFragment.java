@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
      Button btnConnexion, btnInscription, btnDeconnexion, btnSuppression;
      EditText emailConnexion, mdpConnexion;
      EditText nomInscription, prenomInscription, emailInscription, mdpInscription, telephoneInscription;
-     TextView circuitTableau, joursTableau, debutTableau, circuitPaiement;
+     TextView circuitTableau, joursTableau, debutTableau, circuitPaiement, messageBienvenue;
 
     NotificationManagerCompat notificationManagerCompat;
     Notification notification;
@@ -104,7 +104,8 @@ public class ProfileFragment extends Fragment {
             this.debutTableau=view.findViewById(R.id.débutTableau);
             this.joursTableau=view.findViewById(R.id.joursTableau);
             this.circuitPaiement=view.findViewById(R.id.circuitPaiement);
-
+            this.messageBienvenue=view.findViewById(R.id.messageBienvenue);
+            this.messageBienvenue.setText("Bonjour, "+sharedPreferences.getString("username",null)+", voici votre tableau de réservation");
             RestApiServiceCircuit restApiServiceCircuit=RetrofitInstance.getApiServiceCircuit();
             Call<CircuitResponse> call=restApiServiceCircuit.checkReservation(new Reservation("Faune et Flore",sharedPreferences.getString("idClient",null)));
             call.enqueue(new Callback<CircuitResponse>() {
