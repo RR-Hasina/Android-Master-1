@@ -3,6 +3,7 @@ package com.tourisme.madatour.view.fragment.home;
 import static android.content.Intent.getIntent;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -29,10 +30,12 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,6 +62,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
+    protected FragmentActivity mActivity;
     private FragmentHomeBinding binding;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -87,8 +91,6 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        RestApiServiceCircuit apiServiceCircuit = RetrofitInstance.getApiServiceCircuit();
-        Call<CircuitResponse> call = apiServiceCircuit.getCircuitList();
         circuitTitre = view.findViewById(R.id.circuitTitre);
         circuitInfo = view.findViewById(R.id.circuitInfo);
         circuitImage1 = view.findViewById(R.id.circuitImage1);
@@ -96,6 +98,8 @@ public class HomeFragment extends Fragment {
         circuitImage3 = view.findViewById(R.id.circuitImage3);
         circuitItineraire = view.findViewById(R.id.circuitItineraire);
         tableLayoutTrajets = view.findViewById(R.id.talbeauLayoutTrajet);
+        RestApiServiceCircuit apiServiceCircuit = RetrofitInstance.getApiServiceCircuit();
+        Call<CircuitResponse> call = apiServiceCircuit.getCircuitList();
         call.enqueue(new Callback<CircuitResponse>() {
             @Override
             public void onResponse(Call<CircuitResponse> call, Response<CircuitResponse> response) {
@@ -103,35 +107,35 @@ public class HomeFragment extends Fragment {
                 List<Circuit> circuitList = circuitResponse.getCircuit();
                 circuitTitre.setText(circuitList.get(0).getNom());
                 circuitInfo.setText(circuitList.get(0).getDescription().getInfo());
-                circuitSelected = (Circuit) getActivity().getIntent().getSerializableExtra("circuit");
+                circuitSelected = (Circuit) mActivity.getIntent().getSerializableExtra("circuit");
                 Picasso.get().load(circuitList.get(0).getPhotos().get(0)).into(circuitImage1);
                 Picasso.get().load(circuitList.get(0).getPhotos().get(1)).into(circuitImage2);
                 Picasso.get().load(circuitList.get(0).getPhotos().get(2)).into(circuitImage3);
                 circuitItineraire.setText(circuitList.get(0).getItineraire().getTitre());
                 List<Trajet> trajet = circuitList.get(0).getItineraire().getTrajet();
                 for (int i = 0; i < trajet.size(); i++) {
-                    TableRow tableRow = new TableRow(getActivity());
-                    TextView circuitDepart = new TextView(getActivity());
+                    TableRow tableRow = new TableRow(mActivity);
+                    TextView circuitDepart = new TextView(mActivity);
                     circuitDepart.setText(trajet.get(i).getLieu_depart() != null ? trajet.get(i).getLieu_depart() : "-");
                     circuitDepart.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                     circuitDepart.setPadding(8, 8, 8, 8);
 
-                    TextView circuitArrivee = new TextView(getActivity());
+                    TextView circuitArrivee = new TextView(mActivity);
                     circuitArrivee.setText(trajet.get(i).getLieu_arrivee() != null ? trajet.get(i).getLieu_arrivee() : "-");
                     circuitArrivee.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                     circuitArrivee.setPadding(8, 8, 8, 8);
 
-                    TextView circuitDuree = new TextView(getActivity());
+                    TextView circuitDuree = new TextView(mActivity);
                     circuitDuree.setText(trajet.get(i).getDuree() != null ? trajet.get(i).getDuree() : "-");
                     circuitDuree.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                     circuitDuree.setPadding(8, 8, 8, 8);
 
-                    TextView circuitDistance = new TextView(getActivity());
+                    TextView circuitDistance = new TextView(mActivity);
                     circuitDistance.setText(trajet.get(i).getDistance() != null ? trajet.get(i).getDistance() : "-");
                     circuitDistance.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                     circuitDistance.setPadding(8, 8, 8, 8);
 
-                    TextView circuitTransport = new TextView(getActivity());
+                    TextView circuitTransport = new TextView(mActivity);
                     circuitTransport.setText(trajet.get(i).getTransport() != null ? trajet.get(i).getTransport() : "-");
                     circuitTransport.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                     circuitTransport.setPadding(8, 8, 8, 8);
@@ -146,7 +150,7 @@ public class HomeFragment extends Fragment {
                     // Ajoutez la TableRow au TableLayout
                     tableLayoutTrajets.addView(tableRow);
                     if (i < trajet.size() - 1) {
-                        View separator = new View(getActivity());
+                        View separator = new View(mActivity);
                         separator.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 2)); // Hauteur de la ligne de séparation
                         separator.setBackgroundColor(Color.BLACK); // Couleur de la ligne de séparation
                         tableLayoutTrajets.addView(separator);
@@ -164,7 +168,7 @@ public class HomeFragment extends Fragment {
                 circuitStatut.setText(circuitList.get(0).getDisponibilite().getValueStatut());
                 btnReservation = view.findViewById(R.id.btnReservation);
                 int ok = 0;
-                sharedPreferences = getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                sharedPreferences = mActivity.getSharedPreferences("Application", Context.MODE_PRIVATE);
                 if (sharedPreferences.getString("idClient", null) != null) {
                     for (int i = 0; i < circuitList.get(0).getListeReservation().size(); i++) {
                         if (circuitList.get(0).getListeReservation().get(i).equals(sharedPreferences.getString("idClient", null))) {
@@ -189,25 +193,25 @@ public class HomeFragment extends Fragment {
                     btnReservation.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            sharedPreferences = getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                            sharedPreferences = mActivity.getSharedPreferences("Application", Context.MODE_PRIVATE);
                             if (sharedPreferences.getString("idClient", null) != null) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                                 builder.setMessage("Êtes-vous sûr de valider la réservation?")
                                         .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                                     NotificationChannel notificationChannel = new NotificationChannel("MyChn", "My Channel", NotificationManager.IMPORTANCE_DEFAULT);
-                                                    NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+                                                    NotificationManager manager = mActivity.getSystemService(NotificationManager.class);
                                                     manager.createNotificationChannel(notificationChannel);
                                                 }
-                                                NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "MyChn")
+                                                NotificationCompat.Builder builder = new NotificationCompat.Builder(mActivity, "MyChn")
                                                         .setSmallIcon(android.R.drawable.btn_radio)
                                                         .setContentTitle("MadaTour")
                                                         .setContentText("Vous aviez acheté un billet de réservation au pres de MadaTour");
                                                 notification = builder.build();
-                                                notificationManagerCompat = NotificationManagerCompat.from(getActivity());
-                                                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                                notificationManagerCompat = NotificationManagerCompat.from(mActivity);
+                                                if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                                                     // TODO: Consider calling
                                                     //    ActivityCompat#requestPermissions
                                                     // here to request the missing permissions, and then overriding
@@ -266,8 +270,17 @@ public class HomeFragment extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity){
+            mActivity = (FragmentActivity) context;
+        }
+    }
+
     private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = this.getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = this.mActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
