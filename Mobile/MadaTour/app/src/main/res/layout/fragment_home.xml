@@ -19,7 +19,6 @@
             android:text="Le circuit proposé par l'équipe cette annee"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#000"
             android:padding="16dp"
             />
 
@@ -30,7 +29,6 @@
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000"
             android:padding="8dp"
             />
 
@@ -40,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="16sp"
-            android:textColor="#000"
+            android:textStyle="bold"
             android:padding="8dp"
             />
         <LinearLayout
@@ -84,7 +82,6 @@
             android:text="Itineraire : Antananarivo - Tulear"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000"
             android:padding="8dp"
             />
 
@@ -279,7 +276,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Réserver une place"
-            android:textColor="#fff"
+            android:textStyle="bold"
             android:background="#2196F3"
             android:padding="16dp"
             android:layout_margin="16dp"
