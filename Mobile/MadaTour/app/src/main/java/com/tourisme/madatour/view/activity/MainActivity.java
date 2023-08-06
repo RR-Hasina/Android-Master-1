@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,25 +15,22 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.databinding.ActivityMainBinding;
 import com.tourisme.madatour.view.fragment.activite.ActiviteFragment;
 import com.tourisme.madatour.view.fragment.attraction.AttractionFragment;
-import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
+import com.tourisme.madatour.view.fragment.destination.DestinationFragment;
 import com.tourisme.madatour.view.fragment.home.HomeFragment;
 import com.tourisme.madatour.view.fragment.notifications.NotificationsFragment;
 import com.tourisme.madatour.view.fragment.profile.ProfileFragment;
@@ -154,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
                 title = "Destinations";
                 toolbar.setTitle(title);
-                replaceFragment(new DashboardFragment());
+                replaceFragment(new DestinationFragment());
             }
         });
 

@@ -1,8 +1,7 @@
-package com.tourisme.madatour.view.fragment.dashboard;
+package com.tourisme.madatour.view.fragment.destination;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,18 +26,17 @@ import com.tourisme.madatour.constant.Constant;
 import com.tourisme.madatour.databinding.FragmentDashboardBinding;
 import com.tourisme.madatour.model.Destination;
 import com.tourisme.madatour.view.activity.DetailsDestinationActivity;
-import com.tourisme.madatour.view.activity.SettingsActivity;
 import com.tourisme.madatour.view.adapter.DestinationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardFragment extends Fragment {
+public class DestinationFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
     private RecyclerView recyclerView;
     private ArrayList<Destination> destinationsList;
-    private DashboardViewModel dashboardViewModel;
+    private DestinationViewModel destinationViewModel;
     DestinationAdapter destinationAdapter;
     private ProgressBar pgsBar;
     private int page = 1;
@@ -55,8 +53,8 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        destinationViewModel =
+                new ViewModelProvider(this).get(DestinationViewModel.class);
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
         View root = binding.getRoot();
@@ -86,7 +84,7 @@ public class DashboardFragment extends Fragment {
 
     public void getDestinationList() {
         if(!state && !isSearch){
-            dashboardViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION).observe(this, new Observer<List<Destination>>() {
+            destinationViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION).observe(this, new Observer<List<Destination>>() {
                 @Override
                 public void onChanged(@Nullable List<Destination> destinations) {
                     if(state){
@@ -98,10 +96,10 @@ public class DashboardFragment extends Fragment {
                 }
             });
         } if(state && !isSearch) {
-            dashboardViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION);
+            destinationViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION);
         }
         if(state && isSearch) {
-            dashboardViewModel.getDestinationListBysearch(textSearch,pageSearch,Constant.LIMITE_DATA_PAGINATION);
+            destinationViewModel.getDestinationListBysearch(textSearch,pageSearch,Constant.LIMITE_DATA_PAGINATION);
         }
 
 
@@ -165,7 +163,7 @@ public class DashboardFragment extends Fragment {
                 query = query.replace("\u200B","");
                 textSearch = query;
                 recyclerView.setVisibility(View.GONE);
-                dashboardViewModel.getDestinationListBysearch(query,pageSearch,Constant.LIMITE_DATA_PAGINATION);
+                destinationViewModel.getDestinationListBysearch(query,pageSearch,Constant.LIMITE_DATA_PAGINATION);
                 return true;
             }
 

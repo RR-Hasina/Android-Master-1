@@ -12,4 +12,7 @@
     <color name="green">#4CAF50</color>
     <color name="red">#F44336</color>
     <color name="standard">#E9E9E9</color>
+    <color name="brown">#64523e</color>
+    <color name="yellow">#fcc300</color>
+    <color name="orange">#ED8B19</color>
 </resources>

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
-        android:background="@color/purple_500"
+        android:background="@color/brown"
         app:title="Paramètres"
         app:titleMarginStart="10dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"

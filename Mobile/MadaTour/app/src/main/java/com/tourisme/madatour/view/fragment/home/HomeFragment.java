@@ -1,7 +1,5 @@
 package com.tourisme.madatour.view.fragment.home;
 
-import static android.content.Intent.getIntent;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,7 +8,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -19,7 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +24,10 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -42,21 +35,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.tourisme.madatour.R;
-import com.tourisme.madatour.constant.Constant;
 import com.tourisme.madatour.databinding.FragmentHomeBinding;
 import com.tourisme.madatour.model.Circuit;
-import com.tourisme.madatour.model.Guide;
 import com.tourisme.madatour.model.Reservation;
 import com.tourisme.madatour.model.Trajet;
 import com.tourisme.madatour.network.RestApiServiceCircuit;
 import com.tourisme.madatour.network.RetrofitInstance;
 import com.tourisme.madatour.response.CircuitResponse;
-import com.tourisme.madatour.view.activity.MainActivity;
-import com.tourisme.madatour.view.fragment.attraction.AttractionFragment;
-import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
+import com.tourisme.madatour.view.fragment.destination.DestinationFragment;
 import com.tourisme.madatour.view.fragment.profile.ProfileFragment;
 
 import java.util.List;
@@ -246,7 +234,7 @@ public class HomeFragment extends Fragment {
                                                     }
 
                                                 });
-                                                replaceFragment(new DashboardFragment());
+                                                replaceFragment(new DestinationFragment());
                                             }
                                         })
                                         .setNegativeButton("Non", new DialogInterface.OnClickListener() {

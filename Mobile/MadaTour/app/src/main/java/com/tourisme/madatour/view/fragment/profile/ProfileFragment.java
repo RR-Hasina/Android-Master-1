@@ -34,7 +34,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.model.Circuit;
 import com.tourisme.madatour.model.Client;
@@ -45,10 +44,8 @@ import com.tourisme.madatour.network.RetrofitInstance;
 import com.tourisme.madatour.response.CircuitResponse;
 import com.tourisme.madatour.view.activity.MainActivity;
 import com.tourisme.madatour.response.ClientResponse;
-import com.tourisme.madatour.view.fragment.dashboard.DashboardFragment;
-import com.tourisme.madatour.view.fragment.home.HomeFragment;
+import com.tourisme.madatour.view.fragment.destination.DestinationFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -181,7 +178,7 @@ public class ProfileFragment extends Fragment {
 
                                         }
                                     });
-                                    replaceFragment(new DashboardFragment());
+                                    replaceFragment(new DestinationFragment());
                                 }
                             }).setNegativeButton("Non", new DialogInterface.OnClickListener() {
                                 @Override

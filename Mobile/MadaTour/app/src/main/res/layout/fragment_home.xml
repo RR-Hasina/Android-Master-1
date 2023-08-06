@@ -98,7 +98,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#2196F3">
+                android:background="@color/brown">
 
                 <TextView
                     android:layout_width="0dp"
@@ -170,7 +170,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#2196F3">
+                android:background="@color/brown">
 
                 <TextView
                     android:layout_width="0dp"
@@ -277,7 +277,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/r_server_une_place"
             android:textStyle="bold"
-            android:background="#2196F3"
+            android:background="@color/orange"
             android:padding="16dp"
             android:layout_margin="16dp"
             />

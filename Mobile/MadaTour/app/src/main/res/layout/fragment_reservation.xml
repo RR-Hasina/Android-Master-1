@@ -21,7 +21,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="88dp"
-            android:background="@color/primary"
+            android:background="@color/brown"
             android:padding="8dp">
 
 
@@ -103,7 +103,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/supprimer_reservation"
-            android:background="@drawable/button_background"
             android:padding="8dp"
             android:layout_margin="16dp" />
         <Button
@@ -112,7 +111,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/se_d_connecter"
-            android:background="@drawable/button_background"
             android:padding="8dp"
             android:layout_margin="16dp" />
 
