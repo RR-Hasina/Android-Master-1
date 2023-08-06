@@ -30,7 +30,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     @Override
     public void onBindViewHolder(@NonNull PhotoViewHolder holder, int position) {
         String photoUrl = photoList.get(position);
-        // Load the photo using Picasso or Glide (or any other image loading library)
         Picasso.get().load(photoUrl).into(holder.photoImageView);
     }
 

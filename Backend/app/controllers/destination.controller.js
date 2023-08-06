@@ -6,7 +6,7 @@ exports.getlistDestinations = async (req, res) => {
       };
 
 exports.getlistDestinationsBysearch = async (req, res) => {
-  const lista = await service.getlistDestinationsBysearch(req.query.keyWord);
+  const lista = await service.getlistDestinationsBysearch(req.query.keyWord,req.query.page,req.query.limite);
   console.log(lista);
   res.send({ destinations: lista });
     };

@@ -25,7 +25,7 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     private List<Destination> destinationList;
     private List<Destination> filteredDestinationList;
     private Context mcontext;
-    private OnItemClickListener onItemClickListener; // Listener for click events
+    private OnItemClickListener onItemClickListener;
 
     // Interface for the click listener
     public interface OnItemClickListener {
@@ -62,7 +62,7 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
 
                     for (Destination destination : destinationList) {
 
-                        // search for user title
+
                         if (destination.getNom().toLowerCase().contains(searchString.toLowerCase())) {
 
                             tempFilteredList.add(destination);

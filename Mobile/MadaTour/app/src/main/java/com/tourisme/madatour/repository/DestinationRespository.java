@@ -47,9 +47,9 @@ public class DestinationRespository {
         return mDestinationList;
     }
 
-    public MutableLiveData<List<Destination>> getDestinationListBysearch(String keyWord) {
+    public MutableLiveData<List<Destination>> getDestinationListBysearch(String keyWord,int page,int limite) {
         RestApiServiceDestination apiService = RetrofitInstance.getApiService();
-        Call<DestinationResponse> call = apiService.getDestinationListBysearch(keyWord);
+        Call<DestinationResponse> call = apiService.getDestinationListBysearch(keyWord,page,limite);
         call.enqueue(new Callback<DestinationResponse>() {
             @Override
             public void onResponse(Call<DestinationResponse> call, Response<DestinationResponse> response) {

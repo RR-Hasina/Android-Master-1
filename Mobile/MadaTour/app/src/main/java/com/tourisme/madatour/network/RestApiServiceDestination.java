@@ -11,5 +11,5 @@ public interface RestApiServiceDestination {
     @GET("destination/allDestinations")
     Call<DestinationResponse> getDestinationList(@Query("page") int page,@Query("limite") int limite);
     @GET("destination/searchDestinations")
-    Call<DestinationResponse> getDestinationListBysearch(@Query("keyWord") String keyword);
+    Call<DestinationResponse> getDestinationListBysearch(@Query("keyWord") String keyword,@Query("page") int page,@Query("limite") int limite);
 }

@@ -46,7 +46,6 @@ public class DetailsActiviteActivity extends AppCompatActivity {
             toolbar.setTitle(activiteName);
             Picasso.get().load(activiteSelected.getPhotos().get(0)).into(photoActivite);
             String activiteDescription = activiteSelected.getDescription();
-            Log.d("gga", " - > postion    " + activiteDescription);
             if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
                 contentActivite.getSettings().setJavaScriptEnabled(true);
                 contentActivite.setWebViewClient(new WebViewClient() {
@@ -97,7 +96,7 @@ public class DetailsActiviteActivity extends AppCompatActivity {
                 "javascript:document.body.style.setProperty(\"color\", \"white\");"
         );
         contentActivite.loadUrl(
-                "javascript:document.body.style.setProperty(\"background-color\", \"#303030\");"
+                "javascript:document.body.style.setProperty(\"background-color\", \"#121212\");"
         );
     }
 }

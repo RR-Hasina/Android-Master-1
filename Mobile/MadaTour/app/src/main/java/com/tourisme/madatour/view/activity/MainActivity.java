@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        checkTheme();
+        sharedPreferences = getSharedPreferences("theme", Context.MODE_PRIVATE);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         dashboardMenuItem = navView.getMenu().findItem(R.id.navigation_dashboard);
         if (savedInstanceState == null) {
             replaceFragment(new HomeFragment());
-            title = "Home";
+            title = "MadaTour circuit";
             toolbar.setTitle(title);
         }
 
@@ -71,19 +71,19 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     replaceFragment(new HomeFragment());
-                    title = "Home";
+                    title = "MadaTour circuit";
                     toolbar.setTitle(title);
-                    itemToHide.setVisible(true); // Changez à true pour le montrer
+                    itemToHide.setVisible(false);
                     break;
                 case R.id.navigation_notifications:
                     replaceFragment(new NotificationsFragment());
                     title = "Notifications";
                     toolbar.setTitle(title);
-                    // Cacher l'élément de menu en le rendant invisible (false) ou le montrer (true)
-                    itemToHide.setVisible(false); // Changez à true pour le montrer
+                    itemToHide.setVisible(false);
                     break;
                 case R.id.navigation_profile:
                     replaceFragment(new ProfileFragment());
+                    title = "Profile";
                     toolbar.setTitle("Profile");
                     itemToHide.setVisible(false);
             }
@@ -101,14 +101,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("Title_Bottom_Nav", title);
+        if(title != null){
+            sharedPreferences.edit().putString("titre", title).apply();
+        }
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState != null){
-            toolbar.setTitle(savedInstanceState.getString("Title_Bottom_Nav"));
+            toolbar.setTitle(sharedPreferences.getString("titre", "MadaTour"));
         }
     }
 
@@ -193,15 +195,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void checkTheme(){
-        sharedPreferences = getSharedPreferences("theme", Context.MODE_PRIVATE);
-        String theme = sharedPreferences.getString("appearance", "system");
-        if (theme.equals("light")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (theme.equals("dark")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-    }
 }

@@ -51,7 +51,6 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.RecyclerView
 
                     for (Guide guide : guideList) {
 
-                        // search for user title
                         if (guide.getNom().toLowerCase().contains(searchString.toLowerCase())) {
 
                             tempFilteredList.add(guide);

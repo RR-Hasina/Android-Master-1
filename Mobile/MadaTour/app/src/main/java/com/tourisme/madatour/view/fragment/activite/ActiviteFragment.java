@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.constant.Constant;
@@ -30,6 +31,7 @@ import com.tourisme.madatour.model.Guide;
 import com.tourisme.madatour.view.activity.DetailsActiviteActivity;
 import com.tourisme.madatour.view.adapter.GuideAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActiviteFragment extends Fragment {
@@ -46,8 +48,13 @@ public class ActiviteFragment extends Fragment {
 
     ProgressBar scrollpBar;
     NestedScrollView nestedScrollView;
-
+    private int pageSearch = 1;
+    private boolean isSearch = false;
+    private String textSearch = "";
+    private ArrayList<Guide> activitesList;
     boolean state = true;
+
+    TextView noData;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -61,11 +68,14 @@ public class ActiviteFragment extends Fragment {
         recyclerView=binding.idActiviteRV;
         pgsBar = binding.pBarA;
         scrollpBar = binding.scrollpBar;
+        noData = binding.labelPBar;
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
            @Override
            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                    page++;
+                   if(isSearch)
+                       pageSearch++;
                    scrollpBar.setVisibility(View.VISIBLE);
                    state = true;
                    getActiviteList();
@@ -78,43 +88,53 @@ public class ActiviteFragment extends Fragment {
     }
 
     public void getActiviteList() {
-        if(!state) {
+        if(!state  && !isSearch) {
             mViewModel.getActiviteList(page, Constant.LIMITE_DATA_PAGINATION).observe(this, new Observer<List<Guide>>() {
                 @Override
                 public void onChanged(@Nullable List<Guide> attractions) {
+                    if(state){
+                        activitesList.addAll(attractions);
+                    }else{
+                        activitesList = new ArrayList<>(attractions);
+                    }
                     setRecyclerView(attractions);
                 }
             });
-        }else{
+        } if(state && !isSearch){
             mViewModel.getActiviteList(page, Constant.LIMITE_DATA_PAGINATION);
+        }
+        if(state && isSearch) {
+            mViewModel.getActiviteListBysearch(textSearch,pageSearch,Constant.LIMITE_DATA_PAGINATION);
         }
 
     }
 
     private void setRecyclerView(List<Guide> activiteList) {
-        guideAdapter = new GuideAdapter(activiteList,this.getContext());
-        // setting grid layout manager to implement grid view.
-        // in this method '2' represents number of columns to be displayed in grid view.
+        if(state){
+            guideAdapter = new GuideAdapter(activitesList,this.getContext());
+        }else{
+            guideAdapter = new GuideAdapter(activiteList,this.getContext());
+        }
         GridLayoutManager layoutManager=new GridLayoutManager(this.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
         guideAdapter.setOnItemClickListener(new GuideAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 // Handle the click event for the image at the given position
-                Guide clickedAttraction = activiteList.get(position);
-                Log.d("clik"," - > postion    "+ position);
-                // Start the DestinationDetailsActivity when an image is clicked
+                Guide clickedActivite = new Guide();
+                if(state)  clickedActivite = activitesList.get(position);
+                else clickedActivite = activiteList.get(position);
                 Intent intent = new Intent(getActivity(), DetailsActiviteActivity.class);
-                Log.d("ggbb"," - > postion    "+ clickedAttraction.getDescription());
-                intent.putExtra("activite", clickedAttraction); // Pass any data you want to the new activity
+                intent.putExtra("activite", clickedActivite);
                 startActivity(intent);
             }
         });
         if(state){
-            scrollpBar.setVisibility(View.GONE);
+            scrollpBar.setVisibility(View.INVISIBLE);
         }else{
             pgsBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            if(!activiteList.isEmpty()) recyclerView.setVisibility(View.VISIBLE);
+            else noData.setVisibility(View.VISIBLE);
         }
         recyclerView.setAdapter(guideAdapter);
         guideAdapter.notifyDataSetChanged();
@@ -127,21 +147,28 @@ public class ActiviteFragment extends Fragment {
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
+        SearchView finalSearchView = searchView;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                return false;
+                state = false;
+                pageSearch = 1;
+                isSearch = true;
+                pgsBar.setVisibility(View.VISIBLE);
+                if(noData.getVisibility() == View.VISIBLE ) noData.setVisibility(View.GONE);
+                query = query.replace("\u200B","");
+                textSearch = query;
+                recyclerView.setVisibility(View.GONE);
+                mViewModel.getActiviteListBysearch(query,pageSearch,Constant.LIMITE_DATA_PAGINATION);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 //guideAdapter.getFilter().filter(newText);
-                if(newText.compareTo("") != 0 ){
-                    state = false;
-                    pgsBar.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    mViewModel.getActiviteListBysearch(newText);
+                if(newText.isEmpty()){
+//                    if(activitesList != null ) activitesList.clear();
+                    finalSearchView.setQuery("\u200B", false);
                 }
                 return true;
             }

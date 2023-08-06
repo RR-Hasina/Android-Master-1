@@ -18,6 +18,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -41,6 +45,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tourisme.madatour.R;
+import com.tourisme.madatour.constant.Constant;
 import com.tourisme.madatour.databinding.FragmentHomeBinding;
 import com.tourisme.madatour.model.Circuit;
 import com.tourisme.madatour.model.Guide;
@@ -89,7 +94,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         circuitTitre = view.findViewById(R.id.circuitTitre);
         circuitInfo = view.findViewById(R.id.circuitInfo);
@@ -289,5 +294,11 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.search);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

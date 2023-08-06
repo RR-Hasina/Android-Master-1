@@ -14,6 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -95,7 +97,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=null;
         sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-
+        setHasOptionsMenu(true);
         if(sharedPreferences.getString("username",null)!=null){
             view=inflater.inflate(R.layout.fragment_reservation,container,false);
             this.btnDeconnexion=view.findViewById(R.id.btnDeconnexion);
@@ -234,7 +236,7 @@ public class ProfileFragment extends Fragment {
                             editor.putString("idClient",listeClient.getId());
                             editor.commit();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
-                            intent.putExtra("destination", ""); // Pass any data you want to the new activity
+                            intent.putExtra("destination", "");
                             startActivity(intent);
                             Toast.makeText(getContext(),"Bienvenue "+sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
                         }else{
@@ -280,7 +282,7 @@ public class ProfileFragment extends Fragment {
                     }
                 });
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("destination", ""); // Pass any data you want to the new activity
+                intent.putExtra("destination", "");
                 startActivity(intent);
             }
         });
@@ -293,5 +295,11 @@ public class ProfileFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.search);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

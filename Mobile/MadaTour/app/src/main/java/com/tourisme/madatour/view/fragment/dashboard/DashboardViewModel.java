@@ -25,7 +25,7 @@ public class DashboardViewModel extends AndroidViewModel {
         return destinationRepository.getDestinationList(page,limite);
     }
 
-    public LiveData<List<Destination>> getDestinationListBysearch(String keyWord) {
-        return destinationRepository.getDestinationListBysearch(keyWord);
+    public LiveData<List<Destination>> getDestinationListBysearch(String keyWord,int page,int limite) {
+        return destinationRepository.getDestinationListBysearch(keyWord,page,limite);
     }
 }

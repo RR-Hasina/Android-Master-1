@@ -37,14 +37,19 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
     private RecyclerView recyclerView;
-    private ArrayList<Destination> destinationList;
+    private ArrayList<Destination> destinationsList;
     private DashboardViewModel dashboardViewModel;
     DestinationAdapter destinationAdapter;
     private ProgressBar pgsBar;
     private int page = 1;
 
+    private int pageSearch = 1;
+    private boolean isSearch = false;
+    private String textSearch = "";
+
     ProgressBar scrollpBar;
     NestedScrollView nestedScrollView;
+    TextView noData;
 
     boolean state = true;
 
@@ -59,12 +64,15 @@ public class DashboardFragment extends Fragment {
         recyclerView=binding.idDesinationRV;
         pgsBar = binding.pBar;
         scrollpBar = binding.scrollpBar;
+        noData = binding.labelPBar;
         nestedScrollView.setOnScrollChangeListener(new
            NestedScrollView.OnScrollChangeListener() {
                @Override
                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                    if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                        page++;
+                       if(isSearch)
+                           pageSearch++;
                        scrollpBar.setVisibility(View.VISIBLE);
                        state = true;
                        getDestinationList();
@@ -77,44 +85,54 @@ public class DashboardFragment extends Fragment {
     }
 
     public void getDestinationList() {
-        if(!state){
+        if(!state && !isSearch){
             dashboardViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION).observe(this, new Observer<List<Destination>>() {
                 @Override
                 public void onChanged(@Nullable List<Destination> destinations) {
+                    if(state){
+                        destinationsList.addAll(destinations);
+                    }else{
+                        destinationsList = new ArrayList<>(destinations);
+                    }
                     setRecyclerView(destinations);
                 }
             });
-        }else {
+        } if(state && !isSearch) {
             dashboardViewModel.getDestinationList(page, Constant.LIMITE_DATA_PAGINATION);
+        }
+        if(state && isSearch) {
+            dashboardViewModel.getDestinationListBysearch(textSearch,pageSearch,Constant.LIMITE_DATA_PAGINATION);
         }
 
 
     }
 
     private void setRecyclerView(List<Destination> destinationList) {
-        destinationAdapter = new DestinationAdapter(destinationList,this.getContext());
-        // setting grid layout manager to implement grid view.
-        // in this method '2' represents number of columns to be displayed in grid view.
+        if(state){
+            destinationAdapter = new DestinationAdapter(this.destinationsList,this.getContext());
+        }else{
+            destinationAdapter = new DestinationAdapter(destinationList,this.getContext());
+        }
         GridLayoutManager layoutManager=new GridLayoutManager(this.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
         destinationAdapter.setOnItemClickListener(new DestinationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 // Handle the click event for the image at the given position
-                Destination clickedDestination = destinationList.get(position);
-                Log.d("clik"," - > postion    "+ position);
-                // Start the DestinationDetailsActivity when an image is clicked
+                Destination clickedDestination = new Destination();
+                if(state) clickedDestination = destinationsList.get(position);
+                else clickedDestination = destinationList.get(position);
                 Intent intent = new Intent(getActivity(), DetailsDestinationActivity.class);
-                Log.d("ggbb"," - > postion    "+ clickedDestination.getDescription());
-                intent.putExtra("destination", clickedDestination); // Pass any data you want to the new activity
+                intent.putExtra("destination", clickedDestination);
                 startActivity(intent);
             }
         });
         if(state){
-            scrollpBar.setVisibility(View.GONE);
+            scrollpBar.setVisibility(View.INVISIBLE);
         }else{
             pgsBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            if(!destinationList.isEmpty()) recyclerView.setVisibility(View.VISIBLE);
+            else noData.setVisibility(View.VISIBLE);
         }
         recyclerView.setAdapter(destinationAdapter);
         destinationAdapter.notifyDataSetChanged();
@@ -134,21 +152,28 @@ public class DashboardFragment extends Fragment {
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
+        SearchView finalSearchView = searchView;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                return false;
+                state = false;
+                pageSearch = 1;
+                isSearch = true;
+                pgsBar.setVisibility(View.VISIBLE);
+                if(noData.getVisibility() == View.VISIBLE ) noData.setVisibility(View.GONE);
+                query = query.replace("\u200B","");
+                textSearch = query;
+                recyclerView.setVisibility(View.GONE);
+                dashboardViewModel.getDestinationListBysearch(query,pageSearch,Constant.LIMITE_DATA_PAGINATION);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // destinationAdapter.getFilter().filter(newText);
-                if(newText.compareTo("") != 0 ){
-                    state = false;
-                    pgsBar.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    dashboardViewModel.getDestinationListBysearch(newText);
+                if(newText.isEmpty()){
+                    finalSearchView.setQuery("\u200B", false);
                 }
                 return true;
             }

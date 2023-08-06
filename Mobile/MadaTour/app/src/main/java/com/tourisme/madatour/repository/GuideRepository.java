@@ -61,7 +61,6 @@ public class GuideRepository {
             public void onResponse(Call<GuideResponse> call, Response<GuideResponse> response) {
 
                 GuideResponse attractionWrapper = response.body();
-                Log.d("Listattraction"," - > Error    "+ attractionWrapper);
                 if (attractionWrapper != null && attractionWrapper.getGuides() != null) {
                     attractions = (ArrayList<Guide>) attractionWrapper.getGuides();
                     mAttractionList.setValue(attractions);
@@ -75,9 +74,9 @@ public class GuideRepository {
         return mAttractionList;
     }
 
-    public MutableLiveData<List<Guide>> getActiviteListBysearch(String keyWord) {
+    public MutableLiveData<List<Guide>> getActiviteListBysearch(String keyWord,int page,int limite) {
         RestApiServiceGuide apiService = RetrofitInstance.getApiServiceGuide();
-        Call<GuideResponse> call = apiService.getActiviteListBysearch(keyWord);
+        Call<GuideResponse> call = apiService.getActiviteListBysearch(keyWord,page,limite);
         call.enqueue(new Callback<GuideResponse>() {
             @Override
             public void onResponse(Call<GuideResponse> call, Response<GuideResponse> response) {
@@ -96,9 +95,9 @@ public class GuideRepository {
         return mActiviteList;
     }
 
-    public MutableLiveData<List<Guide>> getAttractionListBysearch(String keyWord) {
+    public MutableLiveData<List<Guide>> getAttractionListBysearch(String keyWord,int page,int limite) {
         RestApiServiceGuide apiService = RetrofitInstance.getApiServiceGuide();
-        Call<GuideResponse> call = apiService.getAttractionListBysearch(keyWord);
+        Call<GuideResponse> call = apiService.getAttractionListBysearch(keyWord,page,limite);
         call.enqueue(new Callback<GuideResponse>() {
             @Override
             public void onResponse(Call<GuideResponse> call, Response<GuideResponse> response) {

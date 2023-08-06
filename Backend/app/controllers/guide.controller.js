@@ -11,11 +11,11 @@ exports.getlistActivites = async (req, res) => {
     };
 
 exports.getlistAttractionsBysearch = async (req, res) => {
-  const lista = await service.getlistAttractionsBysearch(req.query.keyWord);
+  const lista = await service.getlistAttractionsBysearch(req.query.keyWord,req.query.page,req.query.limite);
   res.send({ guides: lista });
     };
   
 exports.getlistActivitesBysearch = async (req, res) => {
-  const lista = await service.getlistActivitesBysearch(req.query.keyWord);
+  const lista = await service.getlistActivitesBysearch(req.query.keyWord,req.query.page,req.query.limite);
   res.send({ guides: lista });
     };

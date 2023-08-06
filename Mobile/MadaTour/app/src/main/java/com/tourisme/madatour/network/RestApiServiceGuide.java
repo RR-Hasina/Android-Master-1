@@ -17,9 +17,9 @@ public interface RestApiServiceGuide {
     Call<GuideResponse> getAttractionList(@Query("page") int page,@Query("limite") int limite);
 
     @GET("guide/searchActivites")
-    Call<GuideResponse> getActiviteListBysearch(@Query("keyWord") String keyword);
+    Call<GuideResponse> getActiviteListBysearch(@Query("keyWord") String keyword,@Query("page") int page,@Query("limite") int limite);
 
     @GET("guide/searchAttractions")
-    Call<GuideResponse> getAttractionListBysearch(@Query("keyWord") String keyword);
+    Call<GuideResponse> getAttractionListBysearch(@Query("keyWord") String keyword,@Query("page") int page,@Query("limite") int limite);
 
 }
