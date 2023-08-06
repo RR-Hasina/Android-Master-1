@@ -15,9 +15,9 @@
         android:id="@+id/textViewConnexion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="28dp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:text="Connexion" />
+        android:text="@string/connexion" />
 
     <EditText
         android:id="@+id/emailConnexion"
@@ -26,7 +26,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="jean@gmail.com" />
+        android:text="@string/default_mail" />
 
     <EditText
         android:id="@+id/mdpConnexion"
@@ -35,23 +35,23 @@
         android:ems="10"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        android:text="azerty" />
+        android:text="@string/default_password" />
 
     <Button
         android:id="@+id/btnConnexion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Se connecter"
+        android:text="@string/se_connecter"
         android:textColor="#fff" />
 
     <TextView
         android:id="@+id/textViewInscription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="28dp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:text="Inscription" />
+        android:text="@string/inscription" />
 
     <EditText
         android:id="@+id/nomInscription"
@@ -60,7 +60,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="nom" />
+        android:text="@string/nom" />
 
     <EditText
         android:id="@+id/prenomInscription"
@@ -69,7 +69,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="prenom" />
+        android:text="@string/prenom" />
 
     <EditText
         android:id="@+id/telephoneInscription"
@@ -78,7 +78,7 @@
         android:ems="10"
         android:inputType="number"
         android:minHeight="48dp"
-        android:text="telephone" />
+        android:text="@string/telephone" />
 
     <EditText
         android:id="@+id/emailInscription"
@@ -87,7 +87,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="email" />
+        android:text="@string/email" />
 
     <EditText
         android:id="@+id/mdpInscription"
@@ -96,7 +96,7 @@
         android:ems="10"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        android:text="password" />
+        android:text="@string/password" />
 
     <Button
         android:id="@+id/btnInscription"
@@ -105,6 +105,6 @@
         android:textColor="#fff"
         android:layout_marginTop="5dp"
         android:background="#232323"
-        android:text="S'inscrire" />
+        android:text="@string/s_inscrire" />
 </LinearLayout>
 </ScrollView>

@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dashboardMenuItem.setChecked(true);
                 dialog.dismiss();
-                title = "Activites";
+                title = "Activités";
                 toolbar.setTitle(title);
                 replaceFragment(new ActiviteFragment());
             }

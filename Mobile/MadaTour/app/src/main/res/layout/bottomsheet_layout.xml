@@ -24,12 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="viewStart"
-            android:text="GUIDES"
+            android:text="@string/guides"
             android:padding="8dp"
             android:textColor="@color/black"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Déstinations"
+            android:text="@string/destinations"
             android:textColor="@color/black"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
@@ -80,7 +80,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Attractions"
+            android:text="@string/attractions"
             android:textColor="@color/black"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
@@ -106,7 +106,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activités"
+            android:text="@string/activit_s"
             android:textColor="@color/black"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>

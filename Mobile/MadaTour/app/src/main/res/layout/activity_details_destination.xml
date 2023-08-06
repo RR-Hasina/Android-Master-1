@@ -51,7 +51,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@android:color/darker_gray"
-                android:text="Voir photos"
+                android:text="@string/voir_photos"
                 android:textColor="#FFFFFF"
                 android:textAllCaps="false" />
 
@@ -65,7 +65,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@android:color/darker_gray"
-                android:text="Voir vidéo"
+                android:text="@string/voir_vid_o"
                 android:textColor="#FFFFFF"
                 android:textAllCaps="false" />
 

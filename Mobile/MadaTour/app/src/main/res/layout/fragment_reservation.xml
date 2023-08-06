@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Bonjour, Jean, voici votre tableau de réservation"
+            android:text="@string/bonjour_jean_voici_votre_tableau_de_r_servation"
             android:padding="16dp" />
         <!-- En-tête du tableau -->
         <TableRow
@@ -30,21 +30,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Circuit"
+                android:text="@string/circuit"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nombres Jours"
+                android:text="@string/nombres_jours"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Début"
+                android:text="@string/d_but"
                 android:padding="20dp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Paiement"
+                android:text="@string/paiement"
                 android:textStyle="bold" />
         </TableRow>
 
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Supprimer reservation"
+            android:text="@string/supprimer_reservation"
             android:background="@drawable/button_background"
             android:padding="8dp"
             android:layout_margin="16dp" />
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Se déconnecter"
+            android:text="@string/se_d_connecter"
             android:background="@drawable/button_background"
             android:padding="8dp"
             android:layout_margin="16dp" />

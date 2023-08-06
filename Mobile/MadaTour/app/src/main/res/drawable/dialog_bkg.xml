@@ -14,5 +14,5 @@
 
     <stroke
         android:width="2dp"
-        android:color="@color/lavender"/>
+        android:color="@color/cardview_dark_background"/>
 </shape>

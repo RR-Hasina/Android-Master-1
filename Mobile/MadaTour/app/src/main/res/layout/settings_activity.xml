@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
         android:background="@color/purple_500"
-        app:title="Settings"
+        app:title="Paramètres"
         app:titleMarginStart="10dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
