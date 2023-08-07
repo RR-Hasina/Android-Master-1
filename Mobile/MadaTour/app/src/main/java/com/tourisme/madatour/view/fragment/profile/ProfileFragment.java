@@ -273,7 +273,7 @@ public class ProfileFragment extends Fragment {
                             ClientResponse clientWrapper = response.body();
                             Client listeClient= (Client) clientWrapper.getClient();
                             sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-                            Toast.makeText(getContext(),sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),sharedPreferences.getString("username","User inscrit"), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("destination", "");
                             startActivity(intent);
