@@ -26,4 +26,4 @@ Nom de l'application: MadaTour
 4. Sessions: SharedPreferences
 5. Notifications: notificationManagerCompat
 ## Architecture
-MVVM (Model View ViewModel)
+Architecture Components suivant un modèle MVVM (Model View ViewModel)
