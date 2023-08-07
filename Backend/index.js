@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const cookieSession = require("cookie-session");
 require("dotenv/config");
 
 const app = express();
@@ -11,14 +10,6 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cookieSession({
-    name: process.env.COOKIE_NAME,
-    secret: process.env.COOKIE_SECRET,
-    secure: true,
-    httpOnly: true
-  })
-);
 
 const db = require("./app/models");
 
@@ -44,8 +35,8 @@ app.get("/", (req, resp) => {
   resp.send("Hello world!");
 });
 
-// app.listen(4200, function () {
-//   console.log("En écoute sur le port 4200");
-// });
+app.listen(4200, function () {
+  console.log("En écoute sur le port 4200");
+});
 
 app.listen();

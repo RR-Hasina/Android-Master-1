@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.tourisme.madatour.R;
 import com.tourisme.madatour.model.Circuit;
 import com.tourisme.madatour.model.Client;
@@ -268,19 +269,24 @@ public class ProfileFragment extends Fragment {
                 call.enqueue(new Callback<ClientResponse>() {
                     @Override
                     public void onResponse(Call<ClientResponse> call, Response<ClientResponse> response) {
-                        ClientResponse clientWrapper = response.body();
-                        Client listeClient= (Client) clientWrapper.getClient();
-                        sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
-                        Toast.makeText(getContext(),sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
+                        if (response.isSuccessful()) {
+                            ClientResponse clientWrapper = response.body();
+                            Client listeClient= (Client) clientWrapper.getClient();
+                            sharedPreferences=getActivity().getSharedPreferences("Application", Context.MODE_PRIVATE);
+                            Toast.makeText(getContext(),sharedPreferences.getString("username",null), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra("destination", "");
+                            startActivity(intent);
+                        } else if (response.code() == 401) {
+                            Toast.makeText(getContext(),"email existant!! Veuillez réessayer!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     @Override
                     public void onFailure(Call<ClientResponse> call, Throwable t) {
                         Log.d("ListSize"," - > Error    "+ t.getMessage());
                     }
                 });
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("destination", "");
-                startActivity(intent);
+
             }
         });
         }
