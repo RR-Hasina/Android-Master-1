@@ -15,6 +15,7 @@ Nom de l'application: MadaTour
 4. photos et vidéos des lieux
 5. Liste de trajets des circuits
 6. Envoie de notification lors de reservation et de suppression
+7. Changement de theme d'application sombre/clair
 ## Installation
 1. Cloner le dépôt mobile
 2. Ouvrir le projet dans Android Studio
