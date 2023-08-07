@@ -10,10 +10,11 @@
 Nom de l'application: MadaTour
 ## Fonctionnalités
 1. Connexion et inscription
-2. Reservation et supression de billet circuit
+2. Reservation et suppression de billet circuit
 3. Liste et details destinations/activités/attractions
 4. photos et vidéos des lieux
 5. Liste de trajets des circuits
+6. Envoie de notification lors de reservation et de suppression
 ## Installation
 1. Cloner le dépôt mobile
 2. Ouvrir le projet dans Android Studio
